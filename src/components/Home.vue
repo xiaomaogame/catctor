@@ -1,22 +1,25 @@
 <template>
 	<div>
 		<el-row>
-			<el-col :span="8">
+			<el-col :span="6">
 				<button @click="test2">测试</button>
 			</el-col>
-			<el-col :span="8">
+			<el-col :span="12">
 				<el-card class="box-card">
 					<div class="mainPage">
 						<div class="canvasContainer" style="margin-bottom: 20px;">
 							<div id="mainCanvas"></div>
 						</div>
+						<div class="subCanvasContainer" style="margin-bottom: 20px;">
+							<div class="subCanvas" id="upCanvas"></div>
+							<div class="subCanvas" id="leftCanvas"></div>
+							<div class="subCanvas" id="downCanvas"></div>
+							<div class="subCanvas" id="rightCanvas"></div>
+						</div>
 						<div>
 							<el-form ref="form" :model="form" label-width="50px">
 								<el-form-item label="速度">
-									<el-slider v-model="form.speed" :step="10"></el-slider>
-								</el-form-item>
-								<el-form-item label="缩放">
-									<el-slider v-model="form.scale" :step="10"></el-slider>
+									<el-slider v-model="form.fps" :min="1" :max="30" @change="speedChange"></el-slider>
 								</el-form-item>
 							</el-form>
 						</div>
@@ -24,7 +27,7 @@
 
 				</el-card>
 			</el-col>
-			<el-col :span="8">
+			<el-col :span="6">
 
 			</el-col>
 
@@ -38,110 +41,87 @@
 
 <script>
 import zrTool from "@/utils/ZrenderTool"
+import { jsonData, anis } from '@/imageData/imgData.js'
 
 export default {
 	name: "Home",
 	data() {
 		return {
+			mainZr: null,
+			upZr: null,
+			leftZr: null,
+			downZr: null,
+			rightZr: null,
 			loading: false,
-			timer:null,
-			farmeCount:0,
+			timer: null,
+			farmeCount: 0,
 			form: {
 				name: "",
-				speed:50,
-				scale:100
+				fps: 1,
+				scale: 100
 			}
 		}
 	},
 	mounted() {
-		let _this = this;
-
-		zrTool.initZr("mainCanvas");
+		this.upZr = new zrTool("upCanvas", 64);
+		this.leftZr = new zrTool("leftCanvas", 64);
+		this.downZr = new zrTool("downCanvas", 64);
+		this.rightZr = new zrTool("rightCanvas", 64);
 
 	},
 	methods: {
-		async test2() {
+		test2() {
+			this.playAnimation("walk");
+		},
+		async playAnimation(animationName) {
 
-			await this.drawItem("body_male", "left_walk");
-			await this.drawItem("hair_male", "left_walk");
-			this.frameCount = 9;
-			this.play();
-			//this.hideAll()
+			let farmeCount = this.getFrameCountByAniName(animationName);
+
+			this.upZr.clear();
+			this.leftZr.clear();
+			this.downZr.clear();
+			this.rightZr.clear();
+
+
+			this.upZr.playFrameCount = farmeCount;
+			this.leftZr.playFrameCount = farmeCount;
+			this.downZr.playFrameCount = farmeCount;
+			this.rightZr.playFrameCount = farmeCount;
+
+
+			await this.upZr.drawItem("body_male", "up_" + animationName);
+			await this.upZr.drawItem("hair_male", "up_" + animationName);
+
+			await this.leftZr.drawItem("body_male", "left_" + animationName);
+			await this.leftZr.drawItem("hair_male", "left_" + animationName);
+
+			await this.downZr.drawItem("body_male", "down_" + animationName);
+			await this.downZr.drawItem("hair_male", "down_" + animationName);
+
+			await this.rightZr.drawItem("body_male", "right_" + animationName);
+			await this.rightZr.drawItem("hair_male", "right_" + animationName);
+
+			this.upZr.play(this.form.fps);
+			this.leftZr.play(this.form.fps);
+			this.downZr.play(this.form.fps);
+			this.rightZr.play(this.form.fps);
+
 
 		},
-		async drawItem(type, ani) {
-			let _this = this;
-			let frameInfo = zrTool.findFrameInfo(type, ani);
+		speedChange(val) {
 
-			console.log(frameInfo);
-			let sourceImage = await zrTool.loadImage(require("@/assets/" + frameInfo.imgUrl));
-
-			for (var i = 0; i < frameInfo.frameCount; i++) {
-				let img = zrTool.getZrImage(sourceImage, zrTool.canvasSize * i, frameInfo.rowIndex * zrTool.canvasSize);
-				img.hide()
-				zrTool.fillFrameImg(i, frameInfo.type, img, frameInfo.layer);
-				zrTool.drawFrame(i);
-			}
+			this.upZr.play(this.form.fps);
+			this.leftZr.play(this.form.fps);
+			this.downZr.play(this.form.fps);
+			this.rightZr.play(this.form.fps);
 		},
-		hideAll() {
-			for (var i = 0; i < zrTool.frameGroup.length; i++) {
-				//console.log( zrTool.frameGroup[i])
-				for (var j = 0; j < zrTool.frameGroup[i].layers.length; j++) {
-					if (zrTool.frameGroup[i].layers[j].zrImg != null) {
-						zrTool.frameGroup[i].layers[j].zrImg.hide();
-					}
-				}
-			}
+		getFrameCountByAniName(aniName) {
+			let name = "down_" + aniName;
+			let rets = anis.filter(x => x.aniName == name);
 
-		},
-		play() {
-			let index = 0;
-			let _this = this;
+			console.log(rets);
 
-			if(_this.timer!=null)
-			{
-					clearInterval(_this.timer);
-			}
-
-			_this.timer = setInterval(() => {
-
-				_this.hideAll()
-
-				for (var i = 0; i < zrTool.frameGroup[index].layers.length; i++) {
-					if (zrTool.frameGroup[index].layers[i].zrImg != null)
-						zrTool.frameGroup[index].layers[i].zrImg.show();
-				}
-
-				index++;
-
-				if (index >= _this.frameCount) {
-					index = 0;
-				}
-			}, 45)
-
-		},
-		async test() {
-			await zrTool.drawImageGroup();
-
-			for (var i = 0; i < zrTool.imageGroup.length; i++) {
-				let item = zrTool.imageGroup[i];
-				item.hide();
-				zrTool.zr.add(item)
-			}
-
-			let index = 0;
-
-			setInterval(() => {
-				for (var i = 0; i < zrTool.imageGroup.length; i++) {
-					let item = zrTool.imageGroup[i];
-					item.hide();
-				}
-				zrTool.imageGroup[index].show();
-				index++;
-				if (index >= zrTool.imageGroup.length) {
-					index = 0;
-				}
-			}, 100)
+			return rets[0].frameCount;
 		}
 	}
 
@@ -162,5 +142,16 @@ export default {
 	border: 1px maroon solid;
 	height: 320px;
 	width: 320px;
+}
+
+.subCanvasContainer {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.subCanvas {
+	height: 128px;
+	width: 128px;
+	border: 1px maroon solid;
 }
 </style>

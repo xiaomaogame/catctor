@@ -111,7 +111,7 @@ const anis = [{
 const jsonData = {
 	version: "1.0",
 	data: [{
-			"imgUrl": "light.png",
+			"imgUrl": "body.png",
 			"type": "body_male",
 			"layer": 0,
 			"frameInfos": anis
@@ -125,4 +125,4 @@ const jsonData = {
 	]
 }
 
-export default jsonData;
+export  {jsonData,anis};
