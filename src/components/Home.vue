@@ -2,13 +2,43 @@
 	<div>
 		<el-row>
 			<el-col :span="6">
-				<button @click="test2">测试</button>
+				<el-card class="box-card">
+					<div>
+						<el-collapse>
+							<el-collapse-item v-for="iconItem in iconList">
+								<template slot="title" @click.stop>
+									<el-checkbox :value="iconActive[iconItem.avtiveCode]!=''?true:false"
+										@click.stop.native="()=>{}"
+										@change="(checked)=>iconCheckHandler(checked,iconItem.avtiveCode)">{{iconItem.name}}</el-checkbox>
+								</template>
+								<div class="iconContainer">
+									<div class="iconBox"
+										:class="iconActive[iconItem.avtiveCode]==icon.type?'iconBoxActive':''"
+										v-for="icon in iconItem.icons">
+										<el-image style="width: 64px; height: 64px" :src="require('@/assets/'+icon.url)"
+											fit="fill"
+											@click="choseIconHandler(iconItem.avtiveCode,icon.type)"></el-image>
+									</div>
+								</div>
+							</el-collapse-item>
+						</el-collapse>
+					</div>
+				</el-card>
+
+
+				<el-color-picker v-model="color" color-format="hsl" @change="colorChange"></el-color-picker>
+				<button @click="colorchangetest">色相bianh测试</button>
 			</el-col>
 			<el-col :span="12">
 				<el-card class="box-card">
 					<div class="mainPage">
 						<div class="canvasContainer" style="margin-bottom: 20px;">
+							<div class="aniBox">
+								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="walk">走路</el-radio>
+								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="fashu">施法</el-radio>
+							</div>
 							<div id="mainCanvas"></div>
+							<div class="aniBox"></div>
 						</div>
 						<div class="subCanvasContainer" style="margin-bottom: 20px;">
 							<div class="subCanvas" id="upCanvas"></div>
@@ -40,118 +70,249 @@
 </template>
 
 <script>
-import zrTool from "@/utils/ZrenderTool"
-import { jsonData, anis } from '@/imageData/imgData.js'
+	import zrTool from "@/utils/ZrenderTool"
+	import {
+		jsonData,
+		anis
+	} from '@/imageData/imgData.js'
 
-export default {
-	name: "Home",
-	data() {
-		return {
-			mainZr: null,
-			upZr: null,
-			leftZr: null,
-			downZr: null,
-			rightZr: null,
-			loading: false,
-			timer: null,
-			farmeCount: 0,
-			form: {
-				name: "",
-				fps: 1,
-				scale: 100
+	import * as zrender from 'zrender'
+
+	export default {
+		name: "Home",
+		data() {
+			return {
+				mainZr: null,
+				upZr: null,
+				leftZr: null,
+				downZr: null,
+				rightZr: null,
+				loading: false,
+				timer: null,
+				farmeCount: 0,
+				color: null,
+				form: {
+					name: "",
+					fps: 12,
+					scale: 100
+				},
+				aniRadio: "walk",
+				iconDefaultType: {
+					body: "body_male"
+				},
+				iconActive: {
+					body: ""
+				},
+				iconList: [{
+					name: "身体",
+					avtiveCode: "body",
+					icons: [{
+							url: "body/body_male_icon.png",
+							type: "body_male"
+						},
+						{
+							url: "body/body_female_icon.png",
+							type: "body_female"
+						}
+					]
+				}],
+				currentSelectType: ["body_male"]
+			}
+		},
+		mounted() {
+			this.init();
+			this.renderAnimation(this.currentSelectType, this.aniRadio)
+			this.playAnimation();
+
+		},
+		methods: {
+			init() {
+				this.mainZr = new zrTool("mainCanvas", 320);
+
+				let size = 128;
+				this.upZr = new zrTool("upCanvas", size);
+				this.leftZr = new zrTool("leftCanvas", size);
+				this.downZr = new zrTool("downCanvas", size);
+				this.rightZr = new zrTool("rightCanvas", size);
+
+
+				for (let key in this.iconDefaultType) {
+					this.iconActive[key] = this.iconDefaultType[key];
+				}
+			},
+			colorChange(value) {
+
+
+				let regex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
+				let result = value.match(regex);
+				console.log(result)
+				if (result) {
+
+					let hsl = {
+						h: result[1],
+						s: result[2] / 100,
+						l: result[3] / 100
+					}
+
+
+					this.mainZr.changeColor({
+						imgType: "body_male",
+						aniName: "down_walk",
+						hsl: hsl
+					});
+
+				} else {
+					console.log('没有找到匹配的HSL值');
+				}
+
+
+				console.log(value)
+			},
+			colorchangetest() {
+				this.upZr.changeColor({
+					imgType: "body_male",
+					aniName: "up_walk"
+				});
+			},
+			async renderAnimation(itemTypes, animationName) {
+				let farmeCount = this.getFrameCountByAniName(animationName);
+
+				// this.upZr.clear();
+				// this.leftZr.clear();
+				// this.downZr.clear();
+				// this.rightZr.clear();
+
+				
+				this.mainZr.playFrameCount = farmeCount;
+				this.upZr.playFrameCount = farmeCount;
+				this.leftZr.playFrameCount = farmeCount;
+				this.downZr.playFrameCount = farmeCount;
+				this.rightZr.playFrameCount = farmeCount;
+
+
+				for (var i = 0; i < itemTypes.length; i++) {
+					await this.upZr.drawItem({
+						imgType: itemTypes[i],
+						aniName: "up_" + animationName
+					});
+
+					await this.leftZr.drawItem({
+						imgType: itemTypes[i],
+						aniName: "left_" + animationName
+					});
+
+					await this.downZr.drawItem({
+						imgType: itemTypes[i],
+						aniName: "down_" + animationName
+					});
+					
+					await this.mainZr.drawItem({
+						imgType: itemTypes[i],
+						aniName: "down_" + animationName
+					});
+
+					await this.rightZr.drawItem({
+						imgType: itemTypes[i],
+						aniName: "right_" + animationName
+					});
+				}
+			},
+			async playAnimation(animationName) {
+				this.mainZr.play(this.form.fps);
+				this.upZr.play(this.form.fps);
+				this.leftZr.play(this.form.fps);
+				this.downZr.play(this.form.fps);
+				this.rightZr.play(this.form.fps);
+			},
+			speedChange(val) {
+				this.playAnimation();
+			},
+			getFrameCountByAniName(aniName) {
+				let name = "down_" + aniName;
+				let rets = anis.filter(x => x.aniName == name);
+
+				let framePosInfo = this.mainZr.getFramePos(rets[0].framePos);
+
+				return framePosInfo.length;
+			},
+			choseIconHandler(activeCode, type) {
+
+				// for (var i = 0; i < Things.length; i++) {
+				// 	Things[i]
+				// }
+				this.iconActive[activeCode] = type;
+
+
+				let selectItemType = [];
+
+				for (let key in this.iconActive) {
+					selectItemType.push(this.iconActive[key])
+				}
+				this.currentSelectType = selectItemType;
+
+				this.renderAnimation(this.currentSelectType, this.aniRadio);
+
+
+			},
+			iconCheckHandler(checked, activeCode) {
+				if (activeCode)
+					this.iconActive[activeCode] = ""
+
+				if (checked)
+					this.iconActive[activeCode] = this.iconDefaultType[activeCode]
+			},
+			aniSelectHandler(val) {
+				this.renderAnimation(this.currentSelectType, val)
 			}
 		}
-	},
-	mounted() {
-		this.upZr = new zrTool("upCanvas", 64);
-		this.leftZr = new zrTool("leftCanvas", 64);
-		this.downZr = new zrTool("downCanvas", 64);
-		this.rightZr = new zrTool("rightCanvas", 64);
-
-	},
-	methods: {
-		test2() {
-			this.playAnimation("walk");
-		},
-		async playAnimation(animationName) {
-
-			let farmeCount = this.getFrameCountByAniName(animationName);
-
-			this.upZr.clear();
-			this.leftZr.clear();
-			this.downZr.clear();
-			this.rightZr.clear();
-
-
-			this.upZr.playFrameCount = farmeCount;
-			this.leftZr.playFrameCount = farmeCount;
-			this.downZr.playFrameCount = farmeCount;
-			this.rightZr.playFrameCount = farmeCount;
-
-
-			await this.upZr.drawItem("body_male", "up_" + animationName);
-			await this.upZr.drawItem("hair_male", "up_" + animationName);
-
-			await this.leftZr.drawItem("body_male", "left_" + animationName);
-			await this.leftZr.drawItem("hair_male", "left_" + animationName);
-
-			await this.downZr.drawItem("body_male", "down_" + animationName);
-			await this.downZr.drawItem("hair_male", "down_" + animationName);
-
-			await this.rightZr.drawItem("body_male", "right_" + animationName);
-			await this.rightZr.drawItem("hair_male", "right_" + animationName);
-
-			this.upZr.play(this.form.fps);
-			this.leftZr.play(this.form.fps);
-			this.downZr.play(this.form.fps);
-			this.rightZr.play(this.form.fps);
-
-
-		},
-		speedChange(val) {
-
-			this.upZr.play(this.form.fps);
-			this.leftZr.play(this.form.fps);
-			this.downZr.play(this.form.fps);
-			this.rightZr.play(this.form.fps);
-		},
-		getFrameCountByAniName(aniName) {
-			let name = "down_" + aniName;
-			let rets = anis.filter(x => x.aniName == name);
-
-			console.log(rets);
-
-			return rets[0].frameCount;
-		}
 	}
-
-}
 </script>
 
 <style lang="scss">
-.mainPage {
-	height: 85vh;
-}
+	.mainPage {
+		height: 85vh;
+	}
 
-.canvasContainer {
-	display: flex;
-	justify-content: center;
-}
+	.canvasContainer {
+		display: flex;
+		justify-content: space-evenly;
+	}
 
-#mainCanvas {
-	border: 1px maroon solid;
-	height: 320px;
-	width: 320px;
-}
+	#mainCanvas {
+		border: 1px maroon solid;
+		height: 320px;
+		width: 320px;
+	}
 
-.subCanvasContainer {
-	display: flex;
-	justify-content: space-evenly;
-}
+	.subCanvasContainer {
+		display: flex;
+		justify-content: space-evenly;
+	}
 
-.subCanvas {
-	height: 128px;
-	width: 128px;
-	border: 1px maroon solid;
-}
+	.subCanvas {
+		height: 128px;
+		width: 128px;
+		border: 1px maroon solid;
+	}
+
+	.iconContainer {
+		display: flex;
+	}
+
+	.iconBox {
+		border: 1px dashed #ccc;
+		margin-left: 5px;
+	}
+
+	.iconBoxActive {
+		border: 3px solid #00aa00 !important;
+	}
+
+	.aniBox {
+		height: 320px;
+		width: 180px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
 </style>

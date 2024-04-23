@@ -1,5 +1,10 @@
 import * as zrender from 'zrender'
-import {jsonData,anis} from '@/imageData/imgData.js'
+import {
+	jsonData,
+	anis
+} from '@/imageData/imgData.js'
+import ZRImage from 'zrender/lib/graphic/Image';
+import Layer from 'zrender/lib/canvas/Layer';
 
 class zrTool {
 
@@ -26,9 +31,7 @@ class zrTool {
 		let _this = this;
 		_this.zr = zrender.init(document.getElementById(domId));
 		_this.frameGroup = [];
-
-
-
+		_this.initFrameGroup();
 	}
 
 	initFrameGroup() {
@@ -101,56 +104,224 @@ class zrTool {
 
 	}
 
-	async drawItem(type, ani, canvasdx, canvasdy) {
+	changeColor({
+		imgType,
+		aniName,
+		hsl
+	}) {
+
 		let _this = this;
-		let frameInfo = _this.findFrameInfo(type, ani);
+		//图片信息，图片地址和绘制层级
+		let imageInfo = _this.findImgInfo(imgType);
+		//动画信息，序列帧位置
+		let aniInfo = _this.findAniInfo(aniName);
+		//整合后的序列帧位置
+		let framePos = _this.getFramePos(aniInfo.framePos);
 
-		console.log(frameInfo);
-		let sourceImage = await _this.loadImage(require("@/assets/" + frameInfo.imgUrl));
+		//循环每一帧找图片信息 改变颜色
+		for (var i = 0; i < _this.frameGroup.length; i++) {
+			let item = _this.frameGroup[i];
+			var layers = item.layers.filter(x => x.layer == imageInfo.layer && x.type == imageInfo.type);
 
-		for (var i = 0; i < frameInfo.frameCount; i++) {
-			let img = _this.getZrImage(sourceImage, _this.canvasSize * i, frameInfo.rowIndex * _this.canvasSize, canvasdx, canvasdy);
-			img.hide()
-			_this.fillFrameImg(i, frameInfo.type, img, frameInfo.layer);
-			_this.drawFrame(i);
-		}
-	}
+			if (layers.length > 0) {
 
-	//增加帧内容
-	fillFrameImg(frameIndex, type, zrImg, layer) {
-		let frameItems = this.frameGroup.filter(item => {
-			return item.frameIndex == frameIndex;
-		});
+				let ctx = layers[0].zrImg.canvas.getContext('2d');
+				ctx.imageSmoothingEnabled = false;
 
-		if (frameItems.length <= 0)
-			return;
+				let rgbaArr = [];
 
-		let layers = frameItems[0].layers.filter(img => {
-			return img.layer == layer;
-		})
+				let imageData = ctx.getImageData(0, 0, _this.canvasSize, _this.canvasSize);
+				let data = imageData.data;
 
-		if (layers.length <= 0)
-			return;
+				for (let i = 0; i < data.length; i += 4) {
+					let r = data[i];
+					let g = data[i + 1];
+					let b = data[i + 2];
+					let a = data[i + 3];
 
-		layers[0].zrImg = zrImg;
-		layers[0].type = type;
-	}
-	findFrameInfo(type, aniName) {
+					let rgba = `rgba(${r},${g},${b},${a})`;
+					let ohsl = this.rgbaToHsl(r,g,b,a);
+					
+					let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s);
 
-		console.log(jsonData)
-		let image = jsonData.data.filter(x => x.type == type)[0];
-		let frameInfo = image.frameInfos.filter(x => x.aniName == aniName)[0];
+					let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
+					let colorData = {
+						r: parseInt(res[1], 10),
+						g: parseInt(res[2], 10),
+						b: parseInt(res[3], 10),
+						a: parseFloat(res[4])
+					};
 
-		return {
-			...frameInfo,
-			...{
-				layer: image.layer,
-				type: image.type,
-				imgUrl: image.imgUrl
+					data[i] = colorData.r;
+					data[i + 1] = colorData.g;
+					data[i + 2] = colorData.b;
+				}
+
+				ctx.putImageData(imageData, 0, 0);
+
+
+				layers[0].zrImg.attr({
+					style: {
+						image: layers[0].zrImg.canvas.toDataURL()
+					}
+				})
 			}
 		}
 	}
-	getZrImage(sourceImage, imgdx, imgdy, canvasdx, canvasdy) {
+
+	rgbaToHsl(r, g, b, a) {
+		r /= 255, g /= 255, b /= 255;
+		let max = Math.max(r, g, b),
+			min = Math.min(r, g, b);
+		let h, s, l = (max + min) / 2;
+
+		if (max == min) {
+			h = s = 0; // achromatic
+		} else {
+			let d = max - min;
+			s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+			switch (max) {
+				case r:
+					h = (g - b) / d + (g < b ? 6 : 0);
+					break;
+				case g:
+					h = (b - r) / d + 2;
+					break;
+				case b:
+					h = (r - g) / d + 4;
+					break;
+			}
+			h /= 6;
+		}
+		return [h * 360, s , l , a];
+	}
+
+	async drawItem({
+		imgType,
+		aniName,
+		canvasdx,
+		canvasdy,
+		colorFunc
+	}) {
+
+		if (!canvasdx)
+			canvasdx = 0;
+
+		if (!canvasdy)
+			canvasdy = 0;
+
+		let _this = this;
+		//图片信息，图片地址和绘制层级
+		let imageInfo = _this.findImgInfo(imgType);
+		//动画信息，序列帧位置
+		let aniInfo = _this.findAniInfo(aniName);
+		//整合后的序列帧位置
+		let framePos = _this.getFramePos(aniInfo.framePos);
+
+		//原始图片
+		let sourceImage = await _this.loadImage(require("@/assets/" + imageInfo.imgUrl));
+
+		//循环绘制序列帧
+		for (var i = 0; i < framePos.length; i++) {
+			// let img = _this.getZrImage(sourceImage, framePos[i][1] * _this.canvasSize, framePos[i][0] * _this
+			// 	.canvasSize, canvasdx, canvasdy);
+
+			//获取ZrImage
+			let img = _this.getZrImage({
+				sourceImage: sourceImage,
+				imgdx: framePos[i][1] * _this.canvasSize,
+				imgdy: framePos[i][0] * _this.canvasSize,
+				canvasdx: canvasdx,
+				canvasdy: canvasdy,
+				layer: imageInfo.layer
+			});
+
+			//img.hide()
+
+
+
+			//填充frameGroup begin -----------------------
+			let frameItems = _this.frameGroup.filter(item => {
+				return item.frameIndex == i;
+			});
+
+			if (frameItems.length <= 0)
+				return;
+
+			let layers = frameItems[0].layers.filter(item => {
+				return item.layer == imageInfo.layer;
+			})
+
+
+			if (layers.length <= 0)
+				return;
+
+
+
+			if (layers[0].zrImg != null) {
+				layers[0].zrImg.attr({
+					style: {
+						image: img.canvas.toDataURL()
+					}
+				})
+			} else {
+				layers[0].zrImg = img;
+				layers[0].type = imageInfo.type;
+				_this.zr.add(img);
+			}
+
+
+
+			//填充frameGroup end ------------------------------
+
+
+
+
+		}
+	}
+
+	getFramePos(framePos) {
+		let tempPos = [];
+
+		for (let index = 0; index < framePos.length; index++) {
+			let element = framePos[index];
+			if (element.length == 3) {
+				for (let i = element[1]; i < element[2]; i++) {
+					tempPos.push([element[0], i]);
+				}
+			} else {
+				tempPos.push(element)
+			}
+		}
+
+		return tempPos;
+	}
+
+	findImgInfo(type) {
+		let image = jsonData.data.filter(x => x.type == type)[0];
+		return image;
+	}
+
+	findAniInfo(aniName) {
+		let aniInfo = anis.filter(x => x.aniName == aniName)[0];
+		return aniInfo;
+	}
+	getZrImage({
+		sourceImage,
+		imgdx,
+		imgdy,
+		canvasdx,
+		canvasdy,
+		layer,
+		colorFunc
+	}) {
+
+
+		if (!imgdx)
+			imgdx = 0;
+		if (!imgdy)
+			imgdy = 0;
+
 		let _this = this;
 		let offscreenCanvas = document.createElement('canvas');
 		offscreenCanvas.width = _this.canvasSize;
@@ -158,7 +329,12 @@ class zrTool {
 		let ctx = offscreenCanvas.getContext('2d');
 		ctx.imageSmoothingEnabled = false;
 
-		ctx.drawImage(sourceImage, -imgdx, -imgdy, sourceImage.width * (_this.canvasSize / 64), sourceImage.height * (_this.canvasSize / 64));
+		ctx.drawImage(sourceImage, -imgdx, -imgdy, sourceImage.width * (_this.canvasSize / 64), sourceImage.height *
+			(_this.canvasSize / 64));
+
+		if (colorFunc != null) {
+			colorFunc(ctx);
+		}
 
 		let img = new zrender.Image({
 			style: {
@@ -167,38 +343,40 @@ class zrTool {
 				y: canvasdy,
 				width: _this.canvasSize,
 				height: _this.canvasSize
-			}
-		})
+			},
+			zlevel: layer
+		});
 
+		img.canvas = offscreenCanvas;
 		return img;
 	}
-	drawFrame(frameindex = -1) {
+	// drawFrame(frameindex = -1) {
 
-		let _this = this;
-		if (frameindex >= 0) {
-			let frame = _this.frameGroup.filter(x => x.frameIndex == frameindex)[0];
+	// 	let _this = this;
+	// 	if (frameindex >= 0) {
+	// 		let frame = _this.frameGroup.filter(x => x.frameIndex == frameindex)[0];
 
-			console.log("找到帧", frame)
+	// 		console.log("找到帧", frame)
 
-			for (var i = 0; i < frame.layers.length; i++) {
-				let item = frame.layers[i];
+	// 		for (var i = 0; i < frame.layers.length; i++) {
+	// 			let item = frame.layers[i];
 
-				if (item.zrImg != null) {
-					console.log("画图")
-					_this.zr.add(item.zrImg);
-				}
-			}
-		}
-	}
+	// 			if (item.zrImg != null) {
+	// 				console.log("画图")
+	// 				_this.zr.add(item.zrImg);
+	// 			}
+	// 		}
+	// 	}
+	// }
 	loadImage(src) {
-		return new Promise(function (resolve, reject) {
+		return new Promise(function(resolve, reject) {
 			var img = new Image();
 			img.src = src;
 
-			img.onload = function () {
+			img.onload = function() {
 				resolve(img);
 			}
-			img.onerror = function () {
+			img.onerror = function() {
 				reject(new Error('Image load failed: ' + src));
 			}
 
