@@ -7,17 +7,17 @@
 						<el-collapse>
 							<el-collapse-item v-for="iconItem in iconList">
 								<template slot="title" @click.stop>
-									<el-checkbox :value="iconActive[iconItem.avtiveCode]!=''?true:false"
+									<el-checkbox :value="iconActive[iconItem.code]!=''?true:false"
 										@click.stop.native="()=>{}"
-										@change="(checked)=>iconCheckHandler(checked,iconItem.avtiveCode)">{{iconItem.name}}</el-checkbox>
+										@change="(checked)=>iconCheckHandler(checked,iconItem.code)">{{iconItem.name}}</el-checkbox>
 								</template>
 								<div class="iconContainer">
 									<div class="iconBox"
-										:class="iconActive[iconItem.avtiveCode]==icon.type?'iconBoxActive':''"
-										v-for="icon in iconItem.icons">
-										<el-image style="width: 64px; height: 64px" :src="require('@/assets/'+icon.url)"
-											fit="fill"
-											@click="choseIconHandler(iconItem.avtiveCode,icon.type)"></el-image>
+										:class="iconActive[iconItem.code]==icon.type?'iconBoxActive':''"
+										v-for="icon in iconItem.imgs">
+										<el-image style="width: 64px; height: 64px"
+											:src="require('@/assets/'+icon.iconUrl)" fit="fill"
+											@click="choseIconHandler(iconItem.code,icon.type)"></el-image>
 									</div>
 								</div>
 							</el-collapse-item>
@@ -36,9 +36,14 @@
 							<div class="aniBox">
 								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="walk">走路</el-radio>
 								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="fashu">施法</el-radio>
+								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="tuci">突刺</el-radio>
 							</div>
 							<div id="mainCanvas"></div>
-							<div class="aniBox"></div>
+							<div class="aniBox">
+								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="fangyu">防御</el-radio>
+								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="shejian">射箭</el-radio>
+								<el-radio v-model="aniRadio" @input="aniSelectHandler" label="die">死亡</el-radio>
+							</div>
 						</div>
 						<div class="subCanvasContainer" style="margin-bottom: 20px;">
 							<div class="subCanvas" id="upCanvas"></div>
@@ -98,35 +103,28 @@
 				},
 				aniRadio: "walk",
 				iconDefaultType: {
-					body: "body_male"
+					body: "body_male",
+					head: "head_human_male"
 				},
 				iconActive: {
-					body: ""
+					body: "",
+					head: ""
 				},
-				iconList: [{
-					name: "身体",
-					avtiveCode: "body",
-					icons: [{
-							url: "body/body_male_icon.png",
-							type: "body_male"
-						},
-						{
-							url: "body/body_female_icon.png",
-							type: "body_female"
-						}
-					]
-				}],
+				iconList: [],
 				currentSelectType: ["body_male"]
 			}
 		},
 		mounted() {
-			this.init();
+			this.initIcon();
+			
+			console.log(this.currentSelectType);
+			this.initZr();
+
 			this.renderAnimation(this.currentSelectType, this.aniRadio)
 			this.playAnimation();
-
 		},
 		methods: {
-			init() {
+			initZr() {
 				this.mainZr = new zrTool("mainCanvas", 320);
 
 				let size = 128;
@@ -139,6 +137,14 @@
 				for (let key in this.iconDefaultType) {
 					this.iconActive[key] = this.iconDefaultType[key];
 				}
+			},
+			initIcon() {
+				this.iconList = jsonData.data;
+				let selectItemType = [];
+				for (let key in this.iconDefaultType) {
+					selectItemType.push(this.iconDefaultType[key])
+				}
+				this.currentSelectType = selectItemType;
 			},
 			colorChange(value) {
 
@@ -182,7 +188,7 @@
 				// this.downZr.clear();
 				// this.rightZr.clear();
 
-				
+
 				this.mainZr.playFrameCount = farmeCount;
 				this.upZr.playFrameCount = farmeCount;
 				this.leftZr.playFrameCount = farmeCount;
@@ -205,7 +211,7 @@
 						imgType: itemTypes[i],
 						aniName: "down_" + animationName
 					});
-					
+
 					await this.mainZr.drawItem({
 						imgType: itemTypes[i],
 						aniName: "down_" + animationName
@@ -297,11 +303,13 @@
 
 	.iconContainer {
 		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.iconBox {
 		border: 1px dashed #ccc;
 		margin-left: 5px;
+		margin-top: 5px;
 	}
 
 	.iconBoxActive {

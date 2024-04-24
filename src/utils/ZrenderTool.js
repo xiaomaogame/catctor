@@ -140,8 +140,8 @@ class zrTool {
 					let a = data[i + 3];
 
 					let rgba = `rgba(${r},${g},${b},${a})`;
-					let ohsl = this.rgbaToHsl(r,g,b,a);
-					
+					let ohsl = this.rgbaToHsl(r, g, b, a);
+
 					let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s);
 
 					let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
@@ -193,7 +193,7 @@ class zrTool {
 			}
 			h /= 6;
 		}
-		return [h * 360, s , l , a];
+		return [h * 360, s, l, a];
 	}
 
 	async drawItem({
@@ -213,8 +213,12 @@ class zrTool {
 		let _this = this;
 		//图片信息，图片地址和绘制层级
 		let imageInfo = _this.findImgInfo(imgType);
+
 		//动画信息，序列帧位置
 		let aniInfo = _this.findAniInfo(aniName);
+
+		if (!aniInfo)
+			return;
 		//整合后的序列帧位置
 		let framePos = _this.getFramePos(aniInfo.framePos);
 
@@ -298,7 +302,9 @@ class zrTool {
 	}
 
 	findImgInfo(type) {
-		let image = jsonData.data.filter(x => x.type == type)[0];
+		let code = type.split('_')[0];
+		let images = jsonData.data.filter(x => x.code == code)[0].imgs;
+		let image = images.filter(x => x.type == type)[0];
 		return image;
 	}
 

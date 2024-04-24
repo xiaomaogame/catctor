@@ -101,28 +101,68 @@ const anis = [{
 }, {
 	"aniName": "down_die",
 	"framePos": [
-		[20, 0, 8]
+		[20, 0, 5]
 	]
 }];
 
 const jsonData = {
 	version: "1.0",
 	data: [{
-			"imgUrl": "body.png",
-			"type": "body_male",
-			"layer": 0
-		},
-		{
-			"imgUrl": "body/body_female.png",
-			"type": "body_female",
-			"layer": 0
-		},
-		{
-			"imgUrl": "gray.png",
-			"type": "hair_male",
+		name: "头部",
+		code: "head",
+		iconPos: [7, 0],
+		imgs: [{
+			"imgUrl": "head/head_human_male.png",
+			"iconUrl": "head/head_human_male_icon.png",
+			"type": "head_human_male",
 			"layer": 1
-		}
-	]
+		}, {
+			"imgUrl": "head/head_human_female.png",
+			"iconUrl": "head/head_human_female_icon.png",
+			"type": "head_human_female",
+			"layer": 1
+		}, {
+			"imgUrl": "head/head_boarman.png",
+			"iconUrl": "head/head_boarman_icon.png",
+			"type": "head_boarman",
+			"layer": 1
+		}]
+	}, {
+		name: "身体",
+		code: "body",
+		iconPos: [7, 0],
+		imgs: [{
+				"imgUrl": "body/body_male.png",
+				"iconUrl": "body/body_male_icon.png",
+				"type": "body_male",
+				"layer": 0
+			},
+			{
+				"imgUrl": "body/body_female.png",
+				"type": "body_female",
+				"iconUrl": "body/body_female_icon.png",
+				"layer": 0
+			},
+			{
+				"imgUrl": "body/body_muscular.png",
+				"type": "body_muscular",
+				"iconUrl": "body/body_muscular_icon.png",
+				"layer": 0
+			},
+			{
+				"imgUrl": "body/body_pregnant.png",
+				"type": "body_pregnant",
+				"iconUrl": "body/body_pregnant_icon.png",
+				"layer": 0
+			},
+			{
+				"imgUrl": "body/body_skeleton.png",
+				"type": "body_skeleton",
+				"iconUrl": "body/body_skeleton_icon.png",
+				"layer": 0
+			},
+		]
+	}]
 }
 
 export {
