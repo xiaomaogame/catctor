@@ -16,7 +16,7 @@
 										:class="iconActive[iconItem.code]==icon.type?'iconBoxActive':''"
 										v-for="icon in iconItem.imgs">
 										<el-image style="width: 64px; height: 64px"
-											:src="require('@/assets/'+icon.iconUrl)" fit="fill"
+											:src="'http://localhost:5120/'+icon.iconUrl" fit="fill"
 											@click="choseIconHandler(iconItem.code,icon.type)"></el-image>
 									</div>
 								</div>

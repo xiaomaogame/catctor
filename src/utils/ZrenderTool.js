@@ -223,7 +223,9 @@ class zrTool {
 		let framePos = _this.getFramePos(aniInfo.framePos);
 
 		//原始图片
-		let sourceImage = await _this.loadImage(require("@/assets/" + imageInfo.imgUrl));
+		let sourceImage = await _this.loadImage("http://localhost:5120/" + imageInfo.imgUrl);
+		
+		//let sourceImage = await _this.loadImage(require("@/assets/" + imageInfo.imgUrl));
 
 		//循环绘制序列帧
 		for (var i = 0; i < framePos.length; i++) {
@@ -385,6 +387,8 @@ class zrTool {
 			img.onerror = function() {
 				reject(new Error('Image load failed: ' + src));
 			}
+			
+			img.crossOrigin = "anonymous";
 
 		});
 	}
