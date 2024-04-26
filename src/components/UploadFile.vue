@@ -1,24 +1,23 @@
 <template>
 	<div>
 		<el-row>
-			<el-col :span="3">
-				<div class="uploadLeft">
-					<el-upload ref="upload" action="http://localhost:5120/character/uploadImage" :data="form" :on-change="handleUploadChange"
-						:file-list="fileList" :auto-upload="false">
-						<el-button slot="trigger" size="small" type="primary">选择图片</el-button>
-
-					</el-upload>
-					<el-button style="margin-top: 10px;" size="small" type="success"
-						@click="handleUpload">上传图片</el-button>
-				</div>
-			</el-col>
-			<el-col :span="14">
+			<el-col :span="16">
 				<div class="uploadCanvasContainer">
+
 					<div id="uploadCanvas"></div>
 				</div>
 			</el-col>
-			<el-col :span="7">
-				<div class="iconCanvasContainer">
+			<el-col :span="6">
+				<div>
+					<el-upload ref="upload" action="http://localhost:21422/api/character/uploadImage" :data="form"
+						:on-change="handleUploadChange" :file-list="fileList" drag :auto-upload="false"
+						:on-success="onSuccess">
+						<!-- 	<el-button slot="trigger" size="small" type="primary">选择图片</el-button> -->
+						<i class="el-icon-upload"></i>
+						<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+					</el-upload>
+				</div>
+				<div style="margin-top: 20px;">
 					<!-- <div id="iconCanvas" style="width:64px;height:64px;"></div> -->
 
 					<el-form ref="form" :model="form" label-width="150px">
@@ -46,6 +45,9 @@
 						<el-form-item label="描述">
 							<el-input v-model="form.desc"></el-input>
 						</el-form-item>
+
+						<el-button style="margin-top: 10px; float: right;" size="small" type="success"
+							@click="handleUpload">上传图片</el-button>
 					</el-form>
 				</div>
 			</el-col>
@@ -57,6 +59,14 @@
 
 <script>
 	import * as zrender from 'zrender'
+	import {
+		MessageBox,
+		Message
+	} from 'element-ui'
+	import {
+		GetImgTablesPost
+	} from '@/api/myApp'
+
 	export default {
 		data() {
 			return {
@@ -71,29 +81,22 @@
 				form: {
 					code: "",
 					name: "",
-					iconData:"",
-					desc:""
+					iconData: "",
+					desc: ""
 				},
-				typeListOptions: [{
-						name: "头部",
-						code: "head"
-					},
-					{
-						name: "身体",
-						code: "body"
-					}
-				]
+				typeListOptions: []
 			};
 		},
-		mounted() {
+		async mounted() {
 			let _this = this;
 			this.zr = zrender.init(document.getElementById("uploadCanvas"));
 			this.iconZr = zrender.init(document.getElementById("iconCanvas"));
-			// 绘制你的图像...
 
+			await this.initTypeList()
 			this.zr.on('click', function(e) {
 
-
+				// if (!this.currentImg)
+				// 	return;
 
 				//获取点击的坐标
 				var x = e.offsetX;
@@ -107,22 +110,31 @@
 				_this.currentIconPos.x = leftTopX;
 				_this.currentIconPos.y = leftTopY;
 
-				_this.drawIcon(1)
+
+
+				_this.drawIcon(_this.iconScaleValue)
 
 
 			});
 		},
-		computed:{
+		computed: {
 			imgName() {
 				if (this.form.code == "")
 					return "图片名称:"
 				else
-				    return "图片名称: "+this.form.code + "_"
+					return "图片名称: " + this.form.code + "_"
 			}
 		},
 		methods: {
+			async initTypeList() {
+				let res = await GetImgTablesPost({});
+				this.typeListOptions = res.data;
+			},
 			drawIcon(scale) {
 				let _this = this;
+
+				if (!_this.currentImg)
+					return;
 
 				let offscreenCanvas = document.createElement('canvas');
 				offscreenCanvas.width = 64 * scale;
@@ -214,14 +226,21 @@
 			handleUpload() {
 				// 获取 div 元素
 				let div = document.getElementById('iconCanvas');
-				
+
 				// 获取 div 元素下的第一个 canvas 元素
 				let canvas = div.getElementsByTagName('canvas')[0];
-				
+
 				// 现在你就可以使用 canvas 进行你需要的操作了
 				let base64 = canvas.toDataURL();
 				this.form.iconData = base64;
 				this.$refs.upload.submit(); // Trigger the upload manually.
+			},
+			onSuccess(res) {
+				Message({
+					message: '上传成功!',
+					type: 'success',
+					duration: 5 * 1000
+				})
 			}
 		}
 	};

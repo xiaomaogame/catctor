@@ -9,7 +9,7 @@
 				<router-view></router-view>
 			</keep-alive>
 		</div>
-		
+
 	</div>
 </template>
 
@@ -26,10 +26,17 @@
 				activeIndex: '/'
 			}
 		},
-		methods:{
-			handleSelect(key,keyPath)
-			{
-				console.log(key,keyPath);
+		mounted() {
+			this.activeIndex  = this.$route.path;
+		},
+		watch: {
+			'$route'(to, from) {
+				// 当路由变化时，你想要做的事情
+				//console.log(to)
+			}
+		},
+		methods: {
+			handleSelect(key, keyPath) {
 				this.$router.push(key)
 			}
 		}

@@ -1,14 +1,18 @@
 import * as zrender from 'zrender'
+
 import {
-	jsonData,
-	anis
-} from '@/imageData/imgData.js'
+	GetAniInfo,
+	GetImgData
+} from '@/imageData/imgData'
+
 import ZRImage from 'zrender/lib/graphic/Image';
 import Layer from 'zrender/lib/canvas/Layer';
+import CharacterData from "@/imageData/characterData"
 
 class zrTool {
 
-	constructor(domId, characterSize) {
+    constructor(domId, characterSize) {
+		
 		this.timer = null;
 		this.zr = zrender.init(document.getElementById(domId));
 		this.canvasSize = characterSize;
@@ -23,6 +27,11 @@ class zrTool {
 				layer: 0
 			}]
 		}];
+		
+		let charData = new CharacterData();
+		console.log("zredner Chardata",charData);
+		this.anis = charData.anis;
+		this.jsonData = charData.jsonData;
 
 		this.initZr(domId);
 	}
@@ -33,7 +42,7 @@ class zrTool {
 		_this.frameGroup = [];
 		_this.initFrameGroup();
 	}
-
+	
 	initFrameGroup() {
 		let _this = this;
 		_this.frameGroup = [];
@@ -223,7 +232,7 @@ class zrTool {
 		let framePos = _this.getFramePos(aniInfo.framePos);
 
 		//原始图片
-		let sourceImage = await _this.loadImage("http://localhost:5120/" + imageInfo.imgUrl);
+		let sourceImage = await _this.loadImage("http://localhost:21422/" + imageInfo.imgUrl);
 		
 		//let sourceImage = await _this.loadImage(require("@/assets/" + imageInfo.imgUrl));
 
@@ -305,13 +314,15 @@ class zrTool {
 
 	findImgInfo(type) {
 		let code = type.split('_')[0];
-		let images = jsonData.data.filter(x => x.code == code)[0].imgs;
-		let image = images.filter(x => x.type == type)[0];
+		let imageInfo = this.jsonData.filter(x => x.code == code)[0];
+		let layer = imageInfo.layer;
+		let image = imageInfo.imgs.filter(x => x.type == type)[0];
+		image.layer = layer;
 		return image;
 	}
 
 	findAniInfo(aniName) {
-		let aniInfo = anis.filter(x => x.aniName == aniName)[0];
+		let aniInfo = this.anis.filter(x => x.aniName == aniName)[0];
 		return aniInfo;
 	}
 	getZrImage({

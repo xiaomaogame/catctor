@@ -7,17 +7,16 @@
 						<el-collapse>
 							<el-collapse-item v-for="iconItem in iconList">
 								<template slot="title" @click.stop>
-									<el-checkbox :value="iconActive[iconItem.code]!=''?true:false"
-										@click.stop.native="()=>{}"
-										@change="(checked)=>iconCheckHandler(checked,iconItem.code)">{{iconItem.name}}</el-checkbox>
+									<el-checkbox :value="iconActive[iconItem.code] != '' ? true : false"
+										@click.stop.native="() => { }"
+										@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{ iconItem.name }}</el-checkbox>
 								</template>
 								<div class="iconContainer">
 									<div class="iconBox"
-										:class="iconActive[iconItem.code]==icon.type?'iconBoxActive':''"
+										:class="iconActive[iconItem.code] == icon.type ? 'iconBoxActive' : ''"
 										v-for="icon in iconItem.imgs">
-										<el-image style="width: 64px; height: 64px"
-											:src="'http://localhost:5120/'+icon.iconUrl" fit="fill"
-											@click="choseIconHandler(iconItem.code,icon.type)"></el-image>
+										<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
+											@click="choseIconHandler(iconItem.code, icon.type)"></el-image>
 									</div>
 								</div>
 							</el-collapse-item>
@@ -76,17 +75,16 @@
 
 <script>
 	import zrTool from "@/utils/ZrenderTool"
-	import {
-		jsonData,
-		anis
-	} from '@/imageData/imgData.js'
-
+	import CharacterData from "@/imageData/characterData"
 	import * as zrender from 'zrender'
+
+
 
 	export default {
 		name: "Home",
 		data() {
 			return {
+				anis: [],
 				mainZr: null,
 				upZr: null,
 				leftZr: null,
@@ -104,20 +102,27 @@
 				aniRadio: "walk",
 				iconDefaultType: {
 					body: "body_male",
-					head: "head_human_male"
+					head: "head_male",
+					hair: ""
 				},
 				iconActive: {
 					body: "",
-					head: ""
+					head: "",
+					hair: ""
 				},
 				iconList: [],
 				currentSelectType: ["body_male"]
 			}
 		},
-		mounted() {
-			this.initIcon();
-			
-			console.log(this.currentSelectType);
+		async mounted() {
+
+			let characterData = new CharacterData();
+			await characterData.init();
+			this.anis = characterData.anis;
+			this.iconList = characterData.jsonData;
+
+			await this.initIcon();
+
 			this.initZr();
 
 			this.renderAnimation(this.currentSelectType, this.aniRadio)
@@ -138,12 +143,13 @@
 					this.iconActive[key] = this.iconDefaultType[key];
 				}
 			},
-			initIcon() {
-				this.iconList = jsonData.data;
+			async initIcon() {
 				let selectItemType = [];
 				for (let key in this.iconDefaultType) {
-					selectItemType.push(this.iconDefaultType[key])
+					if (this.iconDefaultType[key] != "")
+						selectItemType.push(this.iconDefaultType[key])
 				}
+
 				this.currentSelectType = selectItemType;
 			},
 			colorChange(value) {
@@ -235,7 +241,7 @@
 			},
 			getFrameCountByAniName(aniName) {
 				let name = "down_" + aniName;
-				let rets = anis.filter(x => x.aniName == name);
+				let rets = this.anis.filter(x => x.aniName == name);
 
 				let framePosInfo = this.mainZr.getFramePos(rets[0].framePos);
 
@@ -265,7 +271,16 @@
 					this.iconActive[activeCode] = ""
 
 				if (checked)
-					this.iconActive[activeCode] = this.iconDefaultType[activeCode]
+				{
+					if(this.iconDefaultType[activeCode]=="")
+					{
+							this.iconActive[activeCode] = this.iconList.filter(x=>x.code==activeCode)[0][0].type
+					}else
+					{
+							this.iconActive[activeCode] = this.iconDefaultType[activeCode]
+					}
+				}
+				
 			},
 			aniSelectHandler(val) {
 				this.renderAnimation(this.currentSelectType, val)
