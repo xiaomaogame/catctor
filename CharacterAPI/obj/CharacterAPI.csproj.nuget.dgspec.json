@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\CharacterAPI.csproj": {}
+    "D:\\cat\\CharacterAPI\\CharacterAPI.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\CharacterAPI.csproj": {
+    "D:\\cat\\CharacterAPI\\CharacterAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\CharacterAPI.csproj",
+        "projectUniqueName": "D:\\cat\\CharacterAPI\\CharacterAPI.csproj",
         "projectName": "CharacterAPI",
-        "projectPath": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\CharacterAPI.csproj",
+        "projectPath": "D:\\cat\\CharacterAPI\\CharacterAPI.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\obj\\",
+        "outputPath": "D:\\cat\\CharacterAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
