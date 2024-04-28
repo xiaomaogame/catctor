@@ -18,8 +18,8 @@
 										<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
 											@click="choseIconHandler(iconItem.code, icon.type)"
 											@contextmenu.prevent="rightClick(icon)"></el-image>
-											<i v-if="icon.sex=='男'" class="el-icon-male" style="color: blue;"></i>
-										    <i v-if="icon.sex=='女'" class="el-icon-female" style="color: hotpink;"></i>
+											<i v-if="icon.sex=='男'" class="el-icon-male" style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
+										    <i v-if="icon.sex=='女'" class="el-icon-female" style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
 
 									</div>
 
@@ -510,6 +510,7 @@
 		margin-left: 5px;
 		margin-top: 5px;
 		background-color: #e4edf9;
+		position: relative;
 	}
 
 	.iconBoxActive {
