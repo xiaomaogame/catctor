@@ -24,3 +24,27 @@ export function GetImgTablesPost(data) {
     })
 }
 
+export function EditIconPost(data) {
+    return request({
+        url: '/api/character/EditIcon',
+        method: 'post',
+        data
+    })
+}
+
+export function DelImgJsonPost(data) {
+    return request({
+        url: '/api/character/DelImgJson',
+        method: 'post',
+        data
+    })
+}
+
+export function GetNamePost(data) {
+    return request({
+        url: '/api/character/GetName',
+        method: 'post',
+        data
+    })
+}
+

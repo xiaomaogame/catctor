@@ -11,8 +11,8 @@ import CharacterData from "@/imageData/characterData"
 
 class zrTool {
 
-    constructor(domId, characterSize) {
-		
+	constructor(domId, characterSize) {
+
 		this.timer = null;
 		this.zr = zrender.init(document.getElementById(domId));
 		this.canvasSize = characterSize;
@@ -27,9 +27,9 @@ class zrTool {
 				layer: 0
 			}]
 		}];
-		
+
 		let charData = new CharacterData();
-		console.log("zredner Chardata",charData);
+		console.log("zredner Chardata", charData);
 		this.anis = charData.anis;
 		this.jsonData = charData.jsonData;
 
@@ -42,7 +42,7 @@ class zrTool {
 		_this.frameGroup = [];
 		_this.initFrameGroup();
 	}
-	
+
 	initFrameGroup() {
 		let _this = this;
 		_this.frameGroup = [];
@@ -51,7 +51,7 @@ class zrTool {
 
 
 			let layers = []; //每一帧的层数
-			for (var j = -10; j <= 10; j++) {
+			for (var j = -5; j <= 30; j++) {
 				layers.push({
 					zrImg: null,
 					layer: j
@@ -122,6 +122,8 @@ class zrTool {
 		let _this = this;
 		//图片信息，图片地址和绘制层级
 		let imageInfo = _this.findImgInfo(imgType);
+		if (!imageInfo)
+			return;
 		//动画信息，序列帧位置
 		let aniInfo = _this.findAniInfo(aniName);
 		//整合后的序列帧位置
@@ -222,6 +224,8 @@ class zrTool {
 		let _this = this;
 		//图片信息，图片地址和绘制层级
 		let imageInfo = _this.findImgInfo(imgType);
+		if (!imageInfo)
+			return;
 
 		//动画信息，序列帧位置
 		let aniInfo = _this.findAniInfo(aniName);
@@ -233,7 +237,7 @@ class zrTool {
 
 		//原始图片
 		let sourceImage = await _this.loadImage("http://localhost:21422/" + imageInfo.imgUrl);
-		
+
 		//let sourceImage = await _this.loadImage(require("@/assets/" + imageInfo.imgUrl));
 
 		//循环绘制序列帧
@@ -313,6 +317,8 @@ class zrTool {
 	}
 
 	findImgInfo(type) {
+		if (type == "")
+			return null;
 		let code = type.split('_')[0];
 		let imageInfo = this.jsonData.filter(x => x.code == code)[0];
 		let layer = imageInfo.layer;
@@ -398,7 +404,7 @@ class zrTool {
 			img.onerror = function() {
 				reject(new Error('Image load failed: ' + src));
 			}
-			
+
 			img.crossOrigin = "anonymous";
 
 		});

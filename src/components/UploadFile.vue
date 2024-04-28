@@ -33,11 +33,16 @@
 							</div>
 						</el-form-item>
 						<el-form-item label="类型:">
-							<el-select v-model="form.code">
+							<el-select v-model="form.code" @change="typeSelectHandler">
 								<el-option v-for="item in typeListOptions" :value="item.code" :label="item.name">
 
 								</el-option>
 							</el-select>
+						</el-form-item>
+						<el-form-item label="性别:">
+							<el-radio v-model="form.sex" label="男">男</el-radio>
+							<el-radio v-model="form.sex" label="女">女</el-radio>
+							<el-radio v-model="form.sex" label="无">无</el-radio>
 						</el-form-item>
 						<el-form-item :label="imgName">
 							<el-input v-model="form.name"></el-input>
@@ -64,7 +69,8 @@
 		Message
 	} from 'element-ui'
 	import {
-		GetImgTablesPost
+		GetImgTablesPost,
+		GetNamePost
 	} from '@/api/myApp'
 
 	export default {
@@ -72,6 +78,7 @@
 			return {
 				zr: null,
 				fileList: [],
+				currentFileName: "",
 				currentImg: null,
 				iconScaleValue: 1,
 				currentIconPos: {
@@ -81,6 +88,7 @@
 				form: {
 					code: "",
 					name: "",
+					sex: "男",
 					iconData: "",
 					desc: ""
 				},
@@ -111,8 +119,8 @@
 				_this.currentIconPos.y = leftTopY;
 
 
-
-				_this.drawIcon(_this.iconScaleValue)
+				console.log("drawicon3")
+				_this.drawIcon()
 
 
 			});
@@ -130,7 +138,8 @@
 				let res = await GetImgTablesPost({});
 				this.typeListOptions = res.data;
 			},
-			drawIcon(scale) {
+			drawIcon() {
+				let scale = this.iconScaleValue
 				let _this = this;
 
 				if (!_this.currentImg)
@@ -199,9 +208,14 @@
 				_this.iconZr.add(img);
 			},
 			iconScaleInputHandler(val) {
-				this.drawIcon(val)
+				console.log("drawicon1")
+				this.drawIcon()
 			},
 			handleUploadChange(file, fileList) {
+
+				
+				console.log(file)
+				console.log(fileList)
 				let _this = this;
 				_this.fileList = fileList.slice(-1); // Always keep the last selected file
 
@@ -218,10 +232,41 @@
 						}
 					})
 					_this.currentImg = image;
-					console.log(_this.currentImg)
+
 					_this.zr.add(img);
+
+				
+					console.log("drawicon2")
+					_this.drawIcon();
+
+
+					if (this.form.code != "") {
+						GetNamePost({
+							code: _this.form.code
+						}).then(res => {
+							if (_this.fileList.length > 0)
+								_this.form.name = _this.fileList[0].name.replace(".png", "") + "_" + res.data
+							else
+								_this.form.name = res.data
+						})
+					}
+
+
+
 				}
 				image.src = URL.createObjectURL(file.raw);
+
+			},
+			typeSelectHandler(val) {
+				let _this = this;
+				GetNamePost({
+					code: val
+				}).then(res => {
+					if (_this.fileList.length > 0)
+						_this.form.name = _this.fileList[0].name.replace(".png", "") + "_" + res.data
+					else
+						_this.form.name = res.data
+				})
 			},
 			handleUpload() {
 				// 获取 div 元素
@@ -230,17 +275,30 @@
 				// 获取 div 元素下的第一个 canvas 元素
 				let canvas = div.getElementsByTagName('canvas')[0];
 
-				// 现在你就可以使用 canvas 进行你需要的操作了
 				let base64 = canvas.toDataURL();
 				this.form.iconData = base64;
-				this.$refs.upload.submit(); // Trigger the upload manually.
+				this.$refs.upload.submit();
+				console.log("上传")
 			},
 			onSuccess(res) {
-				Message({
-					message: '上传成功!',
-					type: 'success',
-					duration: 5 * 1000
-				})
+
+				console.log(res)
+				if (res.code == 20000) {
+					Message({
+						message: '上传成功!',
+						type: 'success',
+						duration: 5 * 1000
+					})
+				}
+
+				if (res.code == 40000) {
+					Message({
+						message: res.message,
+						type: 'error',
+						duration: 5 * 1000
+					})
+				}
+
 			}
 		}
 	};

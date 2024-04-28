@@ -1,0 +1,949 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\arms\\arms_arms_female.png",
+      "PackagePath": "staticwebassets\\arms\\arms_arms_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\arms\\arms_arms_male.png",
+      "PackagePath": "staticwebassets\\arms\\arms_arms_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\arms\\arms_brass.png",
+      "PackagePath": "staticwebassets\\arms\\arms_brass.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\arms\\arms_brass1.png",
+      "PackagePath": "staticwebassets\\arms\\arms_brass1.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\arms\\arms_brass1_female.png",
+      "PackagePath": "staticwebassets\\arms\\arms_brass1_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\arms\\arms_brass_female.png",
+      "PackagePath": "staticwebassets\\arms\\arms_brass_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_back3_female.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_back3_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_back3_male.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_back3_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_backpake1_female.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_backpake1_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_backpake1_male.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_backpake1_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_backpake2_round.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_backpake2_round.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_backpake3_square.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_backpake3_square.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_bronze1_male.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_bronze1_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_bronze2_female.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_bronze2_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_bronze_female.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_bronze_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_bronze_male.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_bronze_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_square_female.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_square_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\backpack\\backpack_square_male.png",
+      "PackagePath": "staticwebassets\\backpack\\backpack_square_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\belt\\belt_leather_male.png",
+      "PackagePath": "staticwebassets\\belt\\belt_leather_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\belt\\belt_silver.png",
+      "PackagePath": "staticwebassets\\belt\\belt_silver.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\belt\\belt_white_cloth_male.png",
+      "PackagePath": "staticwebassets\\belt\\belt_white_cloth_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_female.png",
+      "PackagePath": "staticwebassets\\body\\body_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_female_icon.png",
+      "PackagePath": "staticwebassets\\body\\body_female_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_male.png",
+      "PackagePath": "staticwebassets\\body\\body_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_male_icon.png",
+      "PackagePath": "staticwebassets\\body\\body_male_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_muscular.png",
+      "PackagePath": "staticwebassets\\body\\body_muscular.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_muscular_icon.png",
+      "PackagePath": "staticwebassets\\body\\body_muscular_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_pregnant.png",
+      "PackagePath": "staticwebassets\\body\\body_pregnant.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_pregnant_icon.png",
+      "PackagePath": "staticwebassets\\body\\body_pregnant_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_skeleton.png",
+      "PackagePath": "staticwebassets\\body\\body_skeleton.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_skeleton_icon.png",
+      "PackagePath": "staticwebassets\\body\\body_skeleton_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_sleeves.png",
+      "PackagePath": "staticwebassets\\body\\body_sleeves.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\body\\body_zombie.png",
+      "PackagePath": "staticwebassets\\body\\body_zombie.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\facial\\facial_beard.png",
+      "PackagePath": "staticwebassets\\facial\\facial_beard.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\facial\\facial_bigstache.png",
+      "PackagePath": "staticwebassets\\facial\\facial_bigstache.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\facial\\facial_fiveoclock.png",
+      "PackagePath": "staticwebassets\\facial\\facial_fiveoclock.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\facial\\facial_frenchstache.png",
+      "PackagePath": "staticwebassets\\facial\\facial_frenchstache.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\facial\\facial_mustache.png",
+      "PackagePath": "staticwebassets\\facial\\facial_mustache.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\feet\\feet_black_shoes_male.png",
+      "PackagePath": "staticwebassets\\feet\\feet_black_shoes_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\feet\\feet_ghillies_female_no_th-sh.png",
+      "PackagePath": "staticwebassets\\feet\\feet_ghillies_female_no_th-sh.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\feet\\feet_golden_boots_female.png",
+      "PackagePath": "staticwebassets\\feet\\feet_golden_boots_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\feet\\feet_golden_boots_male.png",
+      "PackagePath": "staticwebassets\\feet\\feet_golden_boots_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\feet\\feet_slippers_female.png",
+      "PackagePath": "staticwebassets\\feet\\feet_slippers_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_bangs.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_bangs.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_bangslong.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_bangslong.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_bangslong2.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_bangslong2.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_bangsshort.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_bangsshort.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_bedhead.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_bedhead.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_bunches.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_bunches.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_jewfro.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_jewfro.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_long.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_long.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_longhawk.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_longhawk.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_longknot.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_longknot.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_loose.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_loose.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_messy1.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_messy1.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_messy2.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_messy2.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_mohawk.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_mohawk.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_page1.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_page1.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_parted.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_parted.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_pixie.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_pixie.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_plain.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_plain.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_ponytail1.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_ponytail1.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_ponytail2.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_ponytail2.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_princess.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_princess.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_shorthawk.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_shorthawk.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_shortknot.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_shortknot.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_shoulderl.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_shoulderl.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_shoulderr.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_shoulderr.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_swoop.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_swoop.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_unkempt.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_unkempt.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_xlong.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_xlong.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hair\\hair_male_xlongknot.png",
+      "PackagePath": "staticwebassets\\hair\\hair_male_xlongknot.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hands\\hands_cloth_bracers_female.png",
+      "PackagePath": "staticwebassets\\hands\\hands_cloth_bracers_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hands\\hands_golden_gloves_male.png",
+      "PackagePath": "staticwebassets\\hands\\hands_golden_gloves_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hands\\hands_hook.png",
+      "PackagePath": "staticwebassets\\hands\\hands_hook.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hands\\hands_leather_bracers_male.png",
+      "PackagePath": "staticwebassets\\hands\\hands_leather_bracers_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hands\\hands_metal_gloves_male.png",
+      "PackagePath": "staticwebassets\\hands\\hands_metal_gloves_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_bandana_red_hat87.png",
+      "PackagePath": "staticwebassets\\hat\\hat_bandana_red_hat87.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_bandana_red_hat88.png",
+      "PackagePath": "staticwebassets\\hat\\hat_bandana_red_hat88.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_bronze_hat91.png",
+      "PackagePath": "staticwebassets\\hat\\hat_bronze_hat91.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat10.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat10.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat11.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat11.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat1_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat1_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat1_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat1_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat2_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat2_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat2_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat2_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat3_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat3_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat3_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat3_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat4_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat4_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat4_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat4_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat5_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat5_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat5_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat5_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat6_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat6_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat6_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat6_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat7.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat7.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat8_female.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat8_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat8_male.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat8_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_cat9.png",
+      "PackagePath": "staticwebassets\\hat\\hat_cat9.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat14.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat14.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat19.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat19.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat21.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat21.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat22.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat22.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat23.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat23.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat24.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat24.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat25.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat25.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat27.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat27.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat34.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat34.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat38.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat38.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat40.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat40.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat42.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat42.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat44.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat44.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat46.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat46.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat50.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat50.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat52.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat52.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat54.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat54.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat56.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat56.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat58.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat58.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat60.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat60.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat62.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat62.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat64.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat64.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat66.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat66.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat68.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat68.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat70.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat70.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat72.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat72.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat74.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat74.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat76.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat76.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat78.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat78.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat80.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat80.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat82.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat82.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat84.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat84.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat86.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat86.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat90.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat90.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_female_hat93.png",
+      "PackagePath": "staticwebassets\\hat\\hat_female_hat93.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_gray_hat47.png",
+      "PackagePath": "staticwebassets\\hat\\hat_gray_hat47.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_gray_hat48.png",
+      "PackagePath": "staticwebassets\\hat\\hat_gray_hat48.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_hat11.png",
+      "PackagePath": "staticwebassets\\hat\\hat_hat11.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_hat12.png",
+      "PackagePath": "staticwebassets\\hat\\hat_hat12.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_hat16.png",
+      "PackagePath": "staticwebassets\\hat\\hat_hat16.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat13.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat13.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat15.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat15.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat17.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat17.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat18.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat18.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat20.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat20.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat21.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat21.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat22.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat22.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat23.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat23.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat24.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat24.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat26.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat26.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat28.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat28.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat29.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat29.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat30.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat30.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat33.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat33.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat37.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat37.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat39.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat39.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat41.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat41.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat43.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat43.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat45.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat45.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat49.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat49.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat51.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat51.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat53.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat53.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat55.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat55.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat57.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat57.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat59.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat59.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat61.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat61.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat63.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat63.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat65.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat65.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat67.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat67.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat69.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat69.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat71.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat71.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat73.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat73.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat75.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat75.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat77.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat77.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat79.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat79.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat81.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat81.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat83.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat83.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat85.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat85.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat89.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat89.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_male_hat92.png",
+      "PackagePath": "staticwebassets\\hat\\hat_male_hat92.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_steel_hat31.png",
+      "PackagePath": "staticwebassets\\hat\\hat_steel_hat31.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_steel_hat32.png",
+      "PackagePath": "staticwebassets\\hat\\hat_steel_hat32.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_steel_hat35.png",
+      "PackagePath": "staticwebassets\\hat\\hat_steel_hat35.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\hat\\hat_steel_hat36.png",
+      "PackagePath": "staticwebassets\\hat\\hat_steel_hat36.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_boarman.png",
+      "PackagePath": "staticwebassets\\head\\head_boarman.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_boarman_icon.png",
+      "PackagePath": "staticwebassets\\head\\head_boarman_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_female.png",
+      "PackagePath": "staticwebassets\\head\\head_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_human_female.png",
+      "PackagePath": "staticwebassets\\head\\head_human_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_human_female_icon.png",
+      "PackagePath": "staticwebassets\\head\\head_human_female_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_human_male.png",
+      "PackagePath": "staticwebassets\\head\\head_human_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_human_male_icon.png",
+      "PackagePath": "staticwebassets\\head\\head_human_male_icon.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_lizard.png",
+      "PackagePath": "staticwebassets\\head\\head_lizard.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_lizard_female.png",
+      "PackagePath": "staticwebassets\\head\\head_lizard_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_lizard_male.png",
+      "PackagePath": "staticwebassets\\head\\head_lizard_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_male.png",
+      "PackagePath": "staticwebassets\\head\\head_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_minotaur.png",
+      "PackagePath": "staticwebassets\\head\\head_minotaur.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_orc_female.png",
+      "PackagePath": "staticwebassets\\head\\head_orc_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_orc_male.png",
+      "PackagePath": "staticwebassets\\head\\head_orc_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_skeleton.png",
+      "PackagePath": "staticwebassets\\head\\head_skeleton.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_test.png",
+      "PackagePath": "staticwebassets\\head\\head_test.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_wolf_female.png",
+      "PackagePath": "staticwebassets\\head\\head_wolf_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_wolf_male.png",
+      "PackagePath": "staticwebassets\\head\\head_wolf_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\head\\head_zombie.png",
+      "PackagePath": "staticwebassets\\head\\head_zombie.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_golden_greaves_female.png",
+      "PackagePath": "staticwebassets\\legs\\legs_golden_greaves_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_golden_greaves_male.png",
+      "PackagePath": "staticwebassets\\legs\\legs_golden_greaves_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_magenta_pants_female.png",
+      "PackagePath": "staticwebassets\\legs\\legs_magenta_pants_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_magenta_pants_male.png",
+      "PackagePath": "staticwebassets\\legs\\legs_magenta_pants_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_metal_pants_female.png",
+      "PackagePath": "staticwebassets\\legs\\legs_metal_pants_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_metal_pants_male.png",
+      "PackagePath": "staticwebassets\\legs\\legs_metal_pants_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\legs\\legs_robe_skirt_male.png",
+      "PackagePath": "staticwebassets\\legs\\legs_robe_skirt_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\shadow\\shadow_shadow.png",
+      "PackagePath": "staticwebassets\\shadow\\shadow_shadow.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_blue_vest.png",
+      "PackagePath": "staticwebassets\\torso\\torso_blue_vest.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_cape_black.png",
+      "PackagePath": "staticwebassets\\torso\\torso_cape_black.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_chest_female.png",
+      "PackagePath": "staticwebassets\\torso\\torso_chest_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_chest_male.png",
+      "PackagePath": "staticwebassets\\torso\\torso_chest_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_dress_w_sash_female.png",
+      "PackagePath": "staticwebassets\\torso\\torso_dress_w_sash_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_jacket_female.png",
+      "PackagePath": "staticwebassets\\torso\\torso_jacket_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_jacket_male.png",
+      "PackagePath": "staticwebassets\\torso\\torso_jacket_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_leather_chest_female.png",
+      "PackagePath": "staticwebassets\\torso\\torso_leather_chest_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_leather_chest_male.png",
+      "PackagePath": "staticwebassets\\torso\\torso_leather_chest_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_mail_female.png",
+      "PackagePath": "staticwebassets\\torso\\torso_mail_female.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_mail_male.png",
+      "PackagePath": "staticwebassets\\torso\\torso_mail_male.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_overskirt.png",
+      "PackagePath": "staticwebassets\\torso\\torso_overskirt.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_sash.png",
+      "PackagePath": "staticwebassets\\torso\\torso_sash.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_sleeves2.png",
+      "PackagePath": "staticwebassets\\torso\\torso_sleeves2.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_slit.png",
+      "PackagePath": "staticwebassets\\torso\\torso_slit.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_tattercape_black.png",
+      "PackagePath": "staticwebassets\\torso\\torso_tattercape_black.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_trimcape_whiteblue.png",
+      "PackagePath": "staticwebassets\\torso\\torso_trimcape_whiteblue.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_underdress.png",
+      "PackagePath": "staticwebassets\\torso\\torso_underdress.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\torso\\torso_wings_no_th-sh.png",
+      "PackagePath": "staticwebassets\\torso\\torso_wings_no_th-sh.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\weapons\\weapons_arrow.png",
+      "PackagePath": "staticwebassets\\weapons\\weapons_arrow.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\weapons\\weapons_shield_male_cutoutforbody.png",
+      "PackagePath": "staticwebassets\\weapons\\weapons_shield_male_cutoutforbody.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\weapons\\weapons_shield_male_cutoutforhat.png",
+      "PackagePath": "staticwebassets\\weapons\\weapons_shield_male_cutoutforhat.png"
+    },
+    {
+      "Id": "D:\\Users\\Administrator\\Source\\Repos\\CharacterAPI\\wwwroot\\weapons\\weapons_spear.png",
+      "PackagePath": "staticwebassets\\weapons\\weapons_spear.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CharacterAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CharacterAPI.props",
+      "PackagePath": "build\\CharacterAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CharacterAPI.props",
+      "PackagePath": "buildMultiTargeting\\CharacterAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CharacterAPI.props",
+      "PackagePath": "buildTransitive\\CharacterAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
