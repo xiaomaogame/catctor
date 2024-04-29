@@ -118,12 +118,13 @@ class zrTool {
 		aniName,
 		hsl
 	}) {
-
+		console.log("进入改变颜色方法")
 		let _this = this;
 		//图片信息，图片地址和绘制层级
-		let imageInfo = _this.findImgInfo(imgType);
-		if (!imageInfo)
-			return;
+		let code = imgType.split('_')[0];
+		console.log(code,this.jsonData)
+		let layer = this.jsonData.filter(x=>x.code==code)[0].layer;
+		
 		//动画信息，序列帧位置
 		let aniInfo = _this.findAniInfo(aniName);
 		//整合后的序列帧位置
@@ -132,18 +133,18 @@ class zrTool {
 		//循环每一帧找图片信息 改变颜色
 		for (var i = 0; i < _this.frameGroup.length; i++) {
 			let item = _this.frameGroup[i];
-			var layers = item.layers.filter(x => x.layer == imageInfo.layer && x.type == imageInfo.type);
+			//找到所在层信息
+			var layerInfo = item.layers.filter(x => x.layer == layer)[0];
 
-			if (layers.length > 0) {
+			if (layerInfo && layerInfo.zrImg) {
 
-				let ctx = layers[0].zrImg.canvas.getContext('2d');
+				let ctx = layerInfo.zrImg.canvas.getContext('2d');
 				ctx.imageSmoothingEnabled = false;
 
 				let rgbaArr = [];
 
 				let imageData = ctx.getImageData(0, 0, _this.canvasSize, _this.canvasSize);
 				let data = imageData.data;
-
 				for (let i = 0; i < data.length; i += 4) {
 					let r = data[i];
 					let g = data[i + 1];
@@ -151,7 +152,7 @@ class zrTool {
 					let a = data[i + 3];
 
 					let rgba = `rgba(${r},${g},${b},${a})`;
-					let ohsl = this.rgbaToHsl(r, g, b, a);
+					//let ohsl = this.rgbaToHsl(r, g, b, a);
 
 					let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s);
 
@@ -171,13 +172,14 @@ class zrTool {
 				ctx.putImageData(imageData, 0, 0);
 
 
-				layers[0].zrImg.attr({
+				layerInfo.zrImg.attr({
 					style: {
-						image: layers[0].zrImg.canvas.toDataURL()
+						image: layerInfo.zrImg.canvas.toDataURL()
 					}
 				})
 			}
 		}
+			console.log("结束改变颜色方法")
 	}
 
 	rgbaToHsl(r, g, b, a) {
@@ -283,6 +285,8 @@ class zrTool {
 						image: img.canvas.toDataURL()
 					}
 				})
+				layers[0].zrImg.canvas = img.canvas;
+				layers[0].zrImg.type = imageInfo.type;
 			} else {
 				layers[0].zrImg = img;
 				layers[0].type = imageInfo.type;

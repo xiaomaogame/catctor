@@ -18,8 +18,10 @@
 										<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
 											@click="choseIconHandler(iconItem.code, icon.type)"
 											@contextmenu.prevent="rightClick(icon)"></el-image>
-											<i v-if="icon.sex=='男'" class="el-icon-male" style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
-										    <i v-if="icon.sex=='女'" class="el-icon-female" style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
+										<i v-if="icon.sex=='男'" class="el-icon-male"
+											style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
+										<i v-if="icon.sex=='女'" class="el-icon-female"
+											style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
 
 									</div>
 
@@ -29,10 +31,6 @@
 						</el-collapse>
 					</div>
 				</el-card>
-
-
-				<el-color-picker v-model="color" color-format="hsl" @change="colorChange"></el-color-picker>
-				<button @click="colorchangetest">色相bianh测试</button>
 			</el-col>
 			<el-col :span="12">
 				<el-card class="box-card">
@@ -68,8 +66,10 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<div v-for="item in currentSelectType">
-					{{item}}
+				<div v-for="(item,index) in currentSelectType">
+					{{getCodeName(item)}}
+					<el-color-picker v-model="colors[index]" color-format="hsl"
+						@change="(value)=>{colorChange(value,item)}"></el-color-picker>
 				</div>
 			</el-col>
 
@@ -92,7 +92,7 @@
 					<el-radio v-model="iconEditform.sex" label="女">女</el-radio>
 					<el-radio v-model="iconEditform.sex" label="无">无</el-radio>
 				</el-form-item>
-	
+
 				<el-form-item label="描述">
 					<el-input v-model="iconEditform.desc" autocomplete="off"></el-input>
 				</el-form-item>
@@ -187,25 +187,25 @@
 					hat: ""
 				},
 				iconList: [],
-				currentSelectType: ["body_male"]
+				currentSelectType: ["body_male"],
+				colors: []
 			}
 		},
 		async mounted() {
-			
+
 			await this.init();
 		},
 		methods: {
-			async init()
-			{
+			async init() {
 				let characterData = new CharacterData();
 				await characterData.init();
 				this.anis = characterData.anis;
 				this.iconList = characterData.jsonData;
-				
+	            this.initZr();
 				this.initIcon();
 				await this.initTypeList();
-				this.initZr();
-				
+			
+
 				this.renderAnimation(this.currentSelectType, this.aniRadio)
 				this.playAnimation();
 			},
@@ -225,23 +225,24 @@
 			},
 			initIcon() {
 				let selectItemType = [];
-				for (let key in this.iconDefaultType) {
-					if (this.iconDefaultType[key] != "")
-						selectItemType.push(this.iconDefaultType[key])
+				for (let key in this.iconActive) {
+					if (this.iconActive[key] != "")
+						selectItemType.push(this.iconActive[key])
 				}
 
 				this.currentSelectType = selectItemType;
+				console.log("currentSelectType", this.currentSelectType)
+
 			},
 			async initTypeList() {
 				let res = await GetImgTablesPost({});
 				this.typeListOptions = res.data;
 			},
-			colorChange(value) {
+			colorChange(value, item) {
 
 
 				let regex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
 				let result = value.match(regex);
-				console.log(result)
 				if (result) {
 
 					let hsl = {
@@ -252,7 +253,7 @@
 
 
 					this.mainZr.changeColor({
-						imgType: "body_male",
+						imgType: item,
 						aniName: "down_walk",
 						hsl: hsl
 					});
@@ -262,7 +263,6 @@
 				}
 
 
-				console.log(value)
 			},
 			colorchangetest() {
 				this.upZr.changeColor({
@@ -321,7 +321,7 @@
 				this.rightZr.play(this.form.fps);
 			},
 			clearAniByLayer(layerIndex) {
-				console.log("imggroup", this.mainZr.frameGroup);
+
 
 				for (var i = 0; i < this.mainZr.frameGroup.length; i++) {
 					let frame = this.mainZr.frameGroup[i];
@@ -412,11 +412,7 @@
 
 				let selectItemType = [];
 
-				for (let key in this.iconActive) {
-					selectItemType.push(this.iconActive[key])
-				}
-				this.currentSelectType = selectItemType;
-
+				this.initIcon();
 				this.renderAnimation(this.currentSelectType, this.aniRadio);
 
 
@@ -427,7 +423,7 @@
 
 				if (checked) {
 					if (this.iconDefaultType[activeCode] == "") {
-						console.log("222", this.iconList.filter(x => x.code == activeCode))
+
 						this.iconActive[activeCode] = this.iconList.filter(x => x.code == activeCode)[0].imgs[0].type
 					} else {
 						this.iconActive[activeCode] = this.iconDefaultType[activeCode]
@@ -475,9 +471,19 @@
 						});
 						_this.dialogFormVisible = false;
 						_this.init()
-						
+
 					}
 				})
+			},
+			getCodeName(type)
+			{
+				let code = type.split("_")[0];
+				let info =this.iconList.filter(x=>x.code==code)[0]
+				if(info)
+				{
+					return info.name
+				}
+			
 			}
 
 		}
