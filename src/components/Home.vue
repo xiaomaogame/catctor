@@ -68,7 +68,9 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-
+				<div v-for="item in currentSelectType">
+					{{item}}
+				</div>
 			</el-col>
 
 		</el-row>
@@ -90,6 +92,7 @@
 					<el-radio v-model="iconEditform.sex" label="女">女</el-radio>
 					<el-radio v-model="iconEditform.sex" label="无">无</el-radio>
 				</el-form-item>
+	
 				<el-form-item label="描述">
 					<el-input v-model="iconEditform.desc" autocomplete="off"></el-input>
 				</el-form-item>
@@ -188,20 +191,24 @@
 			}
 		},
 		async mounted() {
-
-			let characterData = new CharacterData();
-			await characterData.init();
-			this.anis = characterData.anis;
-			this.iconList = characterData.jsonData;
-
-			this.initIcon();
-			await this.initTypeList();
-			this.initZr();
-
-			this.renderAnimation(this.currentSelectType, this.aniRadio)
-			this.playAnimation();
+			
+			await this.init();
 		},
 		methods: {
+			async init()
+			{
+				let characterData = new CharacterData();
+				await characterData.init();
+				this.anis = characterData.anis;
+				this.iconList = characterData.jsonData;
+				
+				this.initIcon();
+				await this.initTypeList();
+				this.initZr();
+				
+				this.renderAnimation(this.currentSelectType, this.aniRadio)
+				this.playAnimation();
+			},
 			initZr() {
 				this.mainZr = new zrTool("mainCanvas", 320);
 
@@ -456,6 +463,7 @@
 				})
 			},
 			delImgJsonHandler() {
+				let _this = this;
 				DelImgJsonPost({
 					id: this.iconEditform.id
 				}).then(res => {
@@ -464,7 +472,10 @@
 							message: '删除成功!',
 							type: 'success',
 							duration: 5 * 1000
-						})
+						});
+						_this.dialogFormVisible = false;
+						_this.init()
+						
 					}
 				})
 			}

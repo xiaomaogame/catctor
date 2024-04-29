@@ -13,5 +13,7 @@ namespace CharacterAPI.Tables
         public string Desc { get; set; }
         public string Type { get; set; }
         public string Sex { get; set; }
+        public string Pos { get; set; }
+        public int PreId { get; set; }
     }
 }

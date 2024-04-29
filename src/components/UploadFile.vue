@@ -44,6 +44,10 @@
 							<el-radio v-model="form.sex" label="女">女</el-radio>
 							<el-radio v-model="form.sex" label="无">无</el-radio>
 						</el-form-item>
+						<el-form-item label="多图层:">
+							<el-radio v-model="form.pos" label="front">前</el-radio>
+							<el-radio v-model="form.pos" label="behind">后</el-radio>
+						</el-form-item>
 						<el-form-item :label="imgName">
 							<el-input v-model="form.name"></el-input>
 						</el-form-item>
@@ -90,6 +94,7 @@
 					name: "",
 					sex: "男",
 					iconData: "",
+					pos: "front",
 					desc: ""
 				},
 				typeListOptions: []
@@ -213,7 +218,7 @@
 			},
 			handleUploadChange(file, fileList) {
 
-				
+
 				console.log(file)
 				console.log(fileList)
 				let _this = this;
@@ -235,7 +240,7 @@
 
 					_this.zr.add(img);
 
-				
+
 					console.log("drawicon2")
 					_this.drawIcon();
 
@@ -247,7 +252,16 @@
 							if (_this.fileList.length > 0)
 								_this.form.name = _this.fileList[0].name.replace(".png", "") + "_" + res.data
 							else
-								_this.form.name = res.data
+								_this.form.name = res.data;
+
+
+							if (_this.fileList[0].name.indexOf("female") > -1) {
+								_this.form.sex = '女';
+							} else if (_this.fileList[0].name.indexOf("male") > -1) {
+								_this.form.sex = '男';
+							} else {
+								_this.form.sex = '无';
+							}
 						})
 					}
 
@@ -265,7 +279,15 @@
 					if (_this.fileList.length > 0)
 						_this.form.name = _this.fileList[0].name.replace(".png", "") + "_" + res.data
 					else
-						_this.form.name = res.data
+						_this.form.name = res.data;
+
+					if (_this.fileList[0].name.indexOf("female") > -1) {
+						_this.form.sex = '女';
+					} else if (_this.fileList[0].name.indexOf("male") > -1) {
+						_this.form.sex = '男';
+					} else {
+						_this.form.sex = '无';
+					}
 				})
 			},
 			handleUpload() {

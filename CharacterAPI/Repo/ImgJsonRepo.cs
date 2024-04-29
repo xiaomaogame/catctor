@@ -38,6 +38,12 @@ namespace CharacterAPI.Repo
         public static bool Delete(int id)
         {
             var data = GetImgJsonById(id);
+            //删除文件
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", data.ImgUrl);
+            if (File.Exists(filePath))
+            { 
+                File.Delete(filePath);
+            }
             return SqlSugarHelper.Db.Deleteable(data).ExecuteCommand() > 0;
         }
     }

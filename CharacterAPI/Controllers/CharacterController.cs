@@ -59,6 +59,7 @@ namespace CharacterAPI.Controllers
             string iconData = HttpContext.Request.Form["iconData"];
             string desc = HttpContext.Request.Form["desc"];
             string sex = HttpContext.Request.Form["sex"];
+            string pos = HttpContext.Request.Form["pos"];
 
             if (file == null || file.Length == 0)
             {
@@ -86,7 +87,8 @@ namespace CharacterAPI.Controllers
                 ImgUrl = imgUrl,
                 Type = fileName.Replace(".png", ""),
                 Desc = desc,
-                Sex = sex
+                Sex = sex,
+                Pos = pos
             });
 
             using (var stream = new FileStream(path, FileMode.Create))
@@ -117,7 +119,7 @@ namespace CharacterAPI.Controllers
         public DataResult<string> GetName(GetName getName)
         {
             string name = MyApp.GetNameByCode(getName.Code);
-            return Success(name,"");
+            return Success(name, "");
         }
 
     }
