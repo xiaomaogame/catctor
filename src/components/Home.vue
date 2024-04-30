@@ -70,10 +70,12 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<div v-for="(item,index) in currentSelectType">
+				<!-- <div v-for="(item,index) in currentSelectType">
 					{{getCodeName(item)}}
 
-				</div>
+				</div> -->
+
+				<el-button @click="download">下载测试</el-button>
 			</el-col>
 
 		</el-row>
@@ -116,12 +118,12 @@
 					<div>
 						<el-form-item label="">
 							<el-checkbox v-model="colorCtrl.hchecked">色相</el-checkbox>
-							<el-slider v-model="colorCtrl.h" max="360" class="sexiang"></el-slider>
+							<el-slider v-model="colorCtrl.h" :max="360" class="sexiang"></el-slider>
 						</el-form-item>
 					</div>
 					<el-form-item label="">
 						<el-checkbox v-model="colorCtrl.schecked">饱和度</el-checkbox>
-						<el-slider v-model="colorCtrl.s" max="100"></el-slider>
+						<el-slider v-model="colorCtrl.s" :max="100"></el-slider>
 					</el-form-item>
 
 					<el-form-item label="">
@@ -664,6 +666,48 @@
 					img.crossOrigin = "anonymous";
 
 				});
+			},
+			download() {
+
+				let offscreenCanvas = document.createElement('canvas');
+				offscreenCanvas.width = 832;
+				offscreenCanvas.height = 1344;
+				let ctx = offscreenCanvas.getContext('2d');
+				ctx.imageSmoothingEnabled = false;
+
+				let sortCanvas = this.imgCnavasList.sort((a, b) => {
+					return a.layer - b.layer
+				})
+
+				sortCanvas = sortCanvas.filter(x => {
+					return this.currentSelectType.indexOf(x.type) > -1;
+				})
+				
+				console.log("imgCnavasList", this.imgCnavasList)
+				console.log("sortCanvas", sortCanvas)
+
+				for (var i = 0; i < sortCanvas.length; i++) {
+					let item = sortCanvas[i];
+					if (item.canvas)
+						ctx.drawImage(item.canvas, 0, 0, 832, 1344);
+				}
+
+				// 创建数据 URL
+				var dataURL = offscreenCanvas.toDataURL("image/png");
+
+				// 创建一个新的 a 元素
+				var downloadLink = document.createElement("a");
+
+				// 设置下载链接的属性
+				downloadLink.href = dataURL;
+				downloadLink.download = "image.png";
+
+				// 将链接添加到文档中，模拟点击来执行下载操作，完成后再删除
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+
+
 			}
 
 		}
