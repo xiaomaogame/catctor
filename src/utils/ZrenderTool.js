@@ -122,9 +122,9 @@ class zrTool {
 		let _this = this;
 		//图片信息，图片地址和绘制层级
 		let code = imgType.split('_')[0];
-		console.log(code,this.jsonData)
-		let layer = this.jsonData.filter(x=>x.code==code)[0].layer;
-		
+		console.log(code, this.jsonData)
+		let layer = this.jsonData.filter(x => x.code == code)[0].layer;
+
 		//动画信息，序列帧位置
 		let aniInfo = _this.findAniInfo(aniName);
 		//整合后的序列帧位置
@@ -179,7 +179,7 @@ class zrTool {
 				})
 			}
 		}
-			console.log("结束改变颜色方法")
+		console.log("结束改变颜色方法")
 	}
 
 	rgbaToHsl(r, g, b, a) {
@@ -210,6 +210,7 @@ class zrTool {
 	}
 
 	async drawItem({
+		imageInfo,
 		imgType,
 		aniName,
 		canvasdx,
@@ -217,6 +218,7 @@ class zrTool {
 		colorFunc
 	}) {
 
+	
 		if (!canvasdx)
 			canvasdx = 0;
 
@@ -225,7 +227,7 @@ class zrTool {
 
 		let _this = this;
 		//图片信息，图片地址和绘制层级
-		let imageInfo = _this.findImgInfo(imgType);
+
 		if (!imageInfo)
 			return;
 
@@ -238,9 +240,8 @@ class zrTool {
 		let framePos = _this.getFramePos(aniInfo.framePos);
 
 		//原始图片
-		let sourceImage = await _this.loadImage("http://localhost:21422/" + imageInfo.imgUrl);
-
-		//let sourceImage = await _this.loadImage(require("@/assets/" + imageInfo.imgUrl));
+		let sourceImage = imageInfo.canvas;
+		//let sourceImage = await _this.loadImage(imageInfo.dataUrl);
 
 		//循环绘制序列帧
 		for (var i = 0; i < framePos.length; i++) {
@@ -258,9 +259,6 @@ class zrTool {
 			});
 
 			//img.hide()
-
-
-
 			//填充frameGroup begin -----------------------
 			let frameItems = _this.frameGroup.filter(item => {
 				return item.frameIndex == i;

@@ -5,11 +5,15 @@
 				<el-card class="box-card">
 					<div style="height: 80vh;overflow: auto;">
 						<el-collapse>
-							<el-collapse-item v-for="iconItem in iconList">
+							<el-collapse-item v-for="iconItem in jsonData">
 								<template slot="title" @click.stop>
 									<el-checkbox :value="iconActive[iconItem.code] != '' ? true : false"
 										@click.stop.native="() => { }"
-										@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{ iconItem.name+'  ('+iconItem.imgs.length+')' }}</el-checkbox>
+										@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{ iconItem.name+'  ('+iconItem.imgs.length+') ' }}
+										<el-button size="mini" v-if="iconActive[iconItem.code] != ''"
+											@click="colorPanelShow(iconItem.code,iconItem.name)" round>自定义颜色</el-button>
+									</el-checkbox>
+
 								</template>
 								<div class="iconContainer">
 									<div class="iconBox"
@@ -33,7 +37,7 @@
 				</el-card>
 			</el-col>
 			<el-col :span="12">
-				<el-card class="box-card">
+				<el-card class="box-card" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.3)">
 					<div class="mainPage">
 						<div class="canvasContainer" style="margin-bottom: 20px;">
 							<div class="aniBox">
@@ -55,8 +59,8 @@
 							<div class="subCanvas" id="rightCanvas"></div>
 						</div>
 						<div>
-							<el-form ref="form" :model="form" label-width="50px">
-								<el-form-item label="速度">
+							<el-form ref="form" :model="form" label-width="100px">
+								<el-form-item label="速度(FPS)">
 									<el-slider v-model="form.fps" :min="1" :max="30" @change="speedChange"></el-slider>
 								</el-form-item>
 							</el-form>
@@ -68,8 +72,7 @@
 			<el-col :span="6">
 				<div v-for="(item,index) in currentSelectType">
 					{{getCodeName(item)}}
-					<el-color-picker v-model="colors[index]" color-format="hsl"
-						@change="(value)=>{colorChange(value,item)}"></el-color-picker>
+
 				</div>
 			</el-col>
 
@@ -103,6 +106,36 @@
 				<el-button type="primary" @click="editIconHandler">确 定</el-button>
 			</div>
 		</el-dialog>
+
+
+		<div class="colorDialogContainer">
+			<el-dialog :title="'自定义颜色_'+currentColorCodeName" :visible.sync="colorDialogFormVisible" width="30%"
+				:modal="false" :close-on-click-modal="false">
+
+				<el-form :model="colorCtrl" label-width="10px">
+					<div>
+						<el-form-item label="">
+							<el-checkbox v-model="colorCtrl.hchecked">色相</el-checkbox>
+							<el-slider v-model="colorCtrl.h" max="360" class="sexiang"></el-slider>
+						</el-form-item>
+					</div>
+					<el-form-item label="">
+						<el-checkbox v-model="colorCtrl.schecked">饱和度</el-checkbox>
+						<el-slider v-model="colorCtrl.s" max="100"></el-slider>
+					</el-form-item>
+
+					<el-form-item label="">
+						<el-checkbox v-model="colorCtrl.lchecked">明度</el-checkbox>
+						<el-input-number v-model="colorCtrl.l" :min="-100" :max="100" label="描述文字"></el-input-number>
+					</el-form-item>
+				</el-form>
+
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="colorDialogFormVisible = false">取 消</el-button>
+					<el-button type="primary" @click="colorChangeHandler()">确 定</el-button>
+				</div>
+			</el-dialog>
+		</div>
 	</div>
 
 </template>
@@ -128,6 +161,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
+				colorDialogFormVisible: false,
 				anis: [],
 				mainZr: null,
 				upZr: null,
@@ -138,6 +172,7 @@
 				timer: null,
 				farmeCount: 0,
 				color: null,
+				currentColorCodeName: "",
 				form: {
 					name: "",
 					fps: 12,
@@ -186,9 +221,25 @@
 					backpack: "",
 					hat: ""
 				},
-				iconList: [],
+				jsonData: [],
 				currentSelectType: ["body_male"],
-				colors: []
+				colors: [],
+				colorCtrl: {
+					h: 0,
+					hchecked: false,
+					s: 100,
+					schecked: false,
+					l: 0,
+					lchecked: false,
+					code: ""
+				},
+				imgCnavasList: [{
+					code: "",
+					imgType: "",
+					canvas: null,
+					dataUrl: "",
+					layer: ""
+				}]
 			}
 		},
 		async mounted() {
@@ -200,11 +251,11 @@
 				let characterData = new CharacterData();
 				await characterData.init();
 				this.anis = characterData.anis;
-				this.iconList = characterData.jsonData;
-	            this.initZr();
-				this.initIcon();
+				this.jsonData = characterData.jsonData;
+				this.initZr();
+				await this.initSelectInfo();
 				await this.initTypeList();
-			
+
 
 				this.renderAnimation(this.currentSelectType, this.aniRadio)
 				this.playAnimation();
@@ -223,45 +274,125 @@
 					this.iconActive[key] = this.iconDefaultType[key];
 				}
 			},
-			initIcon() {
+			async initSelectInfo() {
+
+				let _this = this;
+
 				let selectItemType = [];
-				for (let key in this.iconActive) {
-					if (this.iconActive[key] != "")
-						selectItemType.push(this.iconActive[key])
+				for (let key in _this.iconActive) {
+					if (_this.iconActive[key] != "")
+						selectItemType.push(_this.iconActive[key])
 				}
 
-				this.currentSelectType = selectItemType;
-				console.log("currentSelectType", this.currentSelectType)
+				_this.currentSelectType = selectItemType;
+
+				console.log("currenttype", _this.currentSelectType)
+
+				for (var i = 0; i < _this.currentSelectType.length; i++) {
+					let type = _this.currentSelectType[i];
+					let code = type.split("_")[0];
+					let itemInfo = _this.jsonData.filter(x => x.code == code)[0];
+					let imgInfo = itemInfo.imgs.filter(x => x.type == type)[0];
+					imgInfo.layer = itemInfo.layer;
+
+					//构造canvas
+					let sourceImage = await _this.loadImage("http://localhost:21422/" + imgInfo.imgUrl);
+
+					let offscreenCanvas = document.createElement('canvas');
+					offscreenCanvas.width = sourceImage.width;
+					offscreenCanvas.height = sourceImage.height;
+					let ctx = offscreenCanvas.getContext('2d');
+					ctx.imageSmoothingEnabled = false;
+
+					ctx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height);
+
+					imgInfo.canvas = offscreenCanvas;
+					// imgInfo.dataUrl = offscreenCanvas.toDataURL()
+
+					let imgCanvasInfo = _this.imgCnavasList.filter(x => x.code == code)[0];
+
+					if (imgCanvasInfo) {
+						_this.imgCnavasList = _this.imgCnavasList.filter(x => x.code != code);
+					}
+					_this.imgCnavasList.push(imgInfo);
+				}
 
 			},
 			async initTypeList() {
 				let res = await GetImgTablesPost({});
 				this.typeListOptions = res.data;
 			},
-			colorChange(value, item) {
+			colorPanelShow(code, name) {
+				this.currentColorCodeName = name;
+				this.colorCtrl.h = 0;
+				this.colorCtrl.s = 100;
+				this.colorCtrl.l = 0;
+				this.colorCtrl.code = code;
+				this.colorDialogFormVisible = true;
+			},
+			colorChangeHandler() {
 
+				let _this = this;
 
-				let regex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
-				let result = value.match(regex);
-				if (result) {
+				if (!_this.colorCtrl.hchecked && !_this.colorCtrl.schecked && !_this.colorCtrl.lchecked)
+					return;
 
-					let hsl = {
-						h: result[1],
-						s: result[2] / 100,
-						l: result[3] / 100
-					}
-
-
-					this.mainZr.changeColor({
-						imgType: item,
-						aniName: "down_walk",
-						hsl: hsl
-					});
-
-				} else {
-					console.log('没有找到匹配的HSL值');
+				let hsl = {
+					h: _this.colorCtrl.hchecked ? _this.colorCtrl.h : null,
+					s: _this.colorCtrl.schecked ? (_this.colorCtrl.s / 100) : null,
+					l: _this.colorCtrl.lchecked ? (_this.colorCtrl.l / 100) : null
 				}
 
+
+
+
+				// this.mainZr.changeColor({
+				// 	imgType: item,
+				// 	aniName: "down_walk",
+				// 	hsl: hsl
+				// });
+
+
+				for (var i = 0; i < _this.imgCnavasList.length; i++) {
+					let item = _this.imgCnavasList[i];
+					if (item.code == this.colorCtrl.code) {
+						let ctx = item.canvas.getContext('2d');
+						ctx.imageSmoothingEnabled = false;
+
+						let rgbaArr = [];
+
+						let imageData = ctx.getImageData(0, 0, item.canvas.width, item.canvas.height);
+						let data = imageData.data;
+						for (let i = 0; i < data.length; i += 4) {
+							let r = data[i];
+							let g = data[i + 1];
+							let b = data[i + 2];
+							let a = data[i + 3];
+
+							let rgba = `rgba(${r},${g},${b},${a})`;
+							let ohsl = _this.rgbaToHsl(r, g, b, a);
+
+							let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s, ohsl[2] + hsl.l);
+
+							let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
+							let colorData = {
+								r: parseInt(res[1], 10),
+								g: parseInt(res[2], 10),
+								b: parseInt(res[3], 10),
+								a: parseFloat(res[4])
+							};
+
+							data[i] = colorData.r;
+							data[i + 1] = colorData.g;
+							data[i + 2] = colorData.b;
+						}
+
+						ctx.putImageData(imageData, 0, 0);
+
+					}
+				}
+
+				this.renderAnimation(this.currentSelectType, this.aniRadio);
 
 			},
 			colorchangetest() {
@@ -269,6 +400,32 @@
 					imgType: "body_male",
 					aniName: "up_walk"
 				});
+			},
+			rgbaToHsl(r, g, b, a) {
+				r /= 255, g /= 255, b /= 255;
+				let max = Math.max(r, g, b),
+					min = Math.min(r, g, b);
+				let h, s, l = (max + min) / 2;
+
+				if (max == min) {
+					h = s = 0; // achromatic
+				} else {
+					let d = max - min;
+					s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+					switch (max) {
+						case r:
+							h = (g - b) / d + (g < b ? 6 : 0);
+							break;
+						case g:
+							h = (b - r) / d + 2;
+							break;
+						case b:
+							h = (r - g) / d + 4;
+							break;
+					}
+					h /= 6;
+				}
+				return [h * 360, s, l, a];
 			},
 			async renderAnimation(itemTypes, animationName) {
 				let farmeCount = this.getFrameCountByAniName(animationName);
@@ -287,27 +444,36 @@
 
 
 				for (var i = 0; i < itemTypes.length; i++) {
+
+					let code = itemTypes[i].split("_")[0];
+					let imgInfo = this.imgCnavasList.filter(x => x.code == code)[0];
+
 					await this.upZr.drawItem({
+						imageInfo: imgInfo,
 						imgType: itemTypes[i],
 						aniName: "up_" + animationName
 					});
 
 					await this.leftZr.drawItem({
+						imageInfo: imgInfo,
 						imgType: itemTypes[i],
 						aniName: "left_" + animationName
 					});
 
 					await this.downZr.drawItem({
+						imageInfo: imgInfo,
 						imgType: itemTypes[i],
 						aniName: "down_" + animationName
 					});
 
 					await this.mainZr.drawItem({
+						imageInfo: imgInfo,
 						imgType: itemTypes[i],
 						aniName: "down_" + animationName
 					});
 
 					await this.rightZr.drawItem({
+						imageInfo: imgInfo,
 						imgType: itemTypes[i],
 						aniName: "right_" + animationName
 					});
@@ -397,22 +563,22 @@
 
 				return framePosInfo.length;
 			},
-			choseIconHandler(activeCode, type) {
+			async choseIconHandler(activeCode, type) {
+
+				this.iconActive[activeCode] = type;
+				await this.initSelectInfo();
 
 				if (type == "") {
 					//清除当前图层
-					let layerIndex = this.iconList.filter(x => x.code == activeCode)[0].layer;
+					let layerIndex = this.jsonData.filter(x => x.code == activeCode)[0].layer;
 
 					this.clearAniByLayer(layerIndex);
+
 					return;
 				}
 
-
-				this.iconActive[activeCode] = type;
-
 				let selectItemType = [];
 
-				this.initIcon();
 				this.renderAnimation(this.currentSelectType, this.aniRadio);
 
 
@@ -424,13 +590,13 @@
 				if (checked) {
 					if (this.iconDefaultType[activeCode] == "") {
 
-						this.iconActive[activeCode] = this.iconList.filter(x => x.code == activeCode)[0].imgs[0].type
+						this.iconActive[activeCode] = this.jsonData.filter(x => x.code == activeCode)[0].imgs[0].type
 					} else {
 						this.iconActive[activeCode] = this.iconDefaultType[activeCode]
 					}
 				}
 
-				this.initIcon()
+				console.log("进行复选框操作")
 				this.choseIconHandler(activeCode, this.iconActive[activeCode]);
 
 
@@ -475,15 +641,29 @@
 					}
 				})
 			},
-			getCodeName(type)
-			{
+			getCodeName(type) {
 				let code = type.split("_")[0];
-				let info =this.iconList.filter(x=>x.code==code)[0]
-				if(info)
-				{
+				let info = this.jsonData.filter(x => x.code == code)[0]
+				if (info) {
 					return info.name
 				}
-			
+
+			},
+			loadImage(src) {
+				return new Promise(function(resolve, reject) {
+					var img = new Image();
+					img.src = src;
+
+					img.onload = function() {
+						resolve(img);
+					}
+					img.onerror = function() {
+						reject(new Error('Image load failed: ' + src));
+					}
+
+					img.crossOrigin = "anonymous";
+
+				});
 			}
 
 		}
@@ -491,8 +671,18 @@
 </script>
 
 <style lang="scss">
+	.sexiang {
+		.el-slider__bar {
+			background: transparent
+		}
+
+		.el-slider__runway {
+			background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+		}
+	}
+
 	.mainPage {
-		height: 85vh;
+		height: 80vh;
 	}
 
 	.canvasContainer {
@@ -540,5 +730,17 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
+	}
+
+	.colorDialogContainer {
+		.el-dialog {
+			position: absolute;
+			left: 5%;
+		}
+
+		.el-form-item__content {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 </style>
