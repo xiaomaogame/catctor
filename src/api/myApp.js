@@ -48,5 +48,27 @@ export function GetNamePost(data) {
     })
 }
 
+export function ExportImgPackagePost(data) {
+    return request({
+        url: '/api/character/ExportImgPackage',
+        method: 'post',
+        data
+    })
+}
+export function DownloadFile(data) {
+    return request({
+        url: '/api/character/DownloadFile',
+        method: 'get',
+        params:data,
+		responseType:"blob"
+    })
+}
 
+export function GetCredits(data) {
+    return request({
+        url: '/api/character/GetCredits',
+        method: 'post',
+        data
+    })
+}
 

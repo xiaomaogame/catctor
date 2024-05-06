@@ -2,42 +2,46 @@
 	<div>
 		<el-row>
 			<el-col :span="6">
-				<el-card class="box-card">
-					<div style="height: 80vh;overflow: auto;">
-						<el-collapse>
-							<el-collapse-item v-for="iconItem in jsonData">
-								<template slot="title" @click.stop>
-									<el-checkbox :value="iconActive[iconItem.code] != '' ? true : false"
-										@click.stop.native="() => { }"
-										@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{ iconItem.name+'  ('+iconItem.imgs.length+') ' }}
-										<el-button size="mini" v-if="iconActive[iconItem.code] != ''"
-											@click="colorPanelShow(iconItem.code,iconItem.name)" round>自定义颜色</el-button>
-									</el-checkbox>
+				<div style="margin-right: 10px;">
+					<el-card class="box-card">
+						<div style="height: 80vh;overflow: auto;">
+							<el-collapse>
+								<el-collapse-item v-for="iconItem in jsonData">
+									<template slot="title" @click.stop>
+										<el-checkbox :value="iconActive[iconItem.code] != '' ? true : false"
+											@click.stop.native="() => { }"
+											@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{ iconItem.name+'  ('+iconItem.imgs.length+') ' }}
+											<el-button size="mini" v-if="iconActive[iconItem.code] != ''"
+												@click="colorPanelShow(iconItem.code,iconItem.name)"
+												round>自定义颜色</el-button>
+										</el-checkbox>
 
-								</template>
-								<div class="iconContainer">
-									<div class="iconBox"
-										:class="iconActive[iconItem.code] == icon.type ? 'iconBoxActive' : ''"
-										v-for="icon in iconItem.imgs">
-										<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
-											@click="choseIconHandler(iconItem.code, icon.type)"
-											@contextmenu.prevent="rightClick(icon)"></el-image>
-										<i v-if="icon.sex=='男'" class="el-icon-male"
-											style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
-										<i v-if="icon.sex=='女'" class="el-icon-female"
-											style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
+									</template>
+									<div class="iconContainer">
+										<div class="iconBox"
+											:class="iconActive[iconItem.code] == icon.type ? 'iconBoxActive' : ''"
+											v-for="icon in iconItem.imgs">
+											<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
+												@click="choseIconHandler(iconItem.code, icon.type)"
+												@contextmenu.prevent="rightClick(icon)"></el-image>
+											<i v-if="icon.sex=='男'" class="el-icon-male"
+												style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
+											<i v-if="icon.sex=='女'" class="el-icon-female"
+												style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
+
+										</div>
+
 
 									</div>
+								</el-collapse-item>
+							</el-collapse>
+						</div>
+					</el-card>
 
-
-								</div>
-							</el-collapse-item>
-						</el-collapse>
-					</div>
-				</el-card>
+				</div>
 			</el-col>
 			<el-col :span="12">
-				<el-card class="box-card" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.3)">
+				<el-card class="box-card" v-loading="loading"   element-loading-text="拼命加载中" element-loading-background="rgba(0, 0, 0, 0.8)">
 					<div class="mainPage">
 						<div class="canvasContainer" style="margin-bottom: 20px;">
 							<div class="aniBox">
@@ -74,8 +78,32 @@
 					{{getCodeName(item)}}
 
 				</div> -->
+				<div style="margin-left: 10px;">
+					<el-card class="box-card">
+						<div>
+							<el-radio v-model="exportType" label="big">单张大图</el-radio>
+							<el-radio v-model="exportType" label="sub">分帧压缩包</el-radio>
+						</div>
+						<div style="margin-top: 20px;">
+							<el-button @click="download" :disabled="exportDisabled">导出</el-button>
+						</div>
+					</el-card>
+					<div style="margin-top: 10px;">
+						<el-card class="box-card">
+							<p>作者：小猫学游戏</p>
+							<a href="https://space.bilibili.com/627968233"  target="_blank">B站主页</a>
+							<p>版本：1.0</p>
+							<p>服务器到期时间：2025-04-30</p>
+						</el-card>
+					</div>
+					<div style="margin-top: 10px;">
+						<el-card class="box-card">
+							<el-input type="textarea" :rows="10" v-model="textarea">
+							</el-input>
+						</el-card>
+					</div>
 
-				<el-button @click="download">下载测试</el-button>
+				</div>
 			</el-col>
 
 		</el-row>
@@ -150,7 +178,10 @@
 	import {
 		GetImgTablesPost,
 		EditIconPost,
-		DelImgJsonPost
+		DelImgJsonPost,
+		ExportImgPackagePost,
+		DownloadFile,
+		GetCredits
 	} from '@/api/myApp'
 
 	import {
@@ -164,6 +195,9 @@
 			return {
 				dialogFormVisible: false,
 				colorDialogFormVisible: false,
+				exportType: "big",
+				exportDisabled:false,
+				textarea: "",
 				anis: [],
 				mainZr: null,
 				upZr: null,
@@ -245,11 +279,14 @@
 			}
 		},
 		async mounted() {
-
+			
+			this.loading = true;
 			await this.init();
+			this.loading = false;
 		},
 		methods: {
 			async init() {
+				this.initCredits();
 				let characterData = new CharacterData();
 				await characterData.init();
 				this.anis = characterData.anis;
@@ -276,6 +313,12 @@
 					this.iconActive[key] = this.iconDefaultType[key];
 				}
 			},
+			initCredits() {
+				let _this = this;
+				GetCredits().then(res => {
+					_this.textarea = res.data;
+				});
+			},
 			async initSelectInfo() {
 
 				let _this = this;
@@ -298,7 +341,7 @@
 					imgInfo.layer = itemInfo.layer;
 
 					//构造canvas
-					let sourceImage = await _this.loadImage("http://localhost:21422/" + imgInfo.imgUrl);
+					let sourceImage = await _this.loadImage("http://150.158.78.78:21422/resources/" + imgInfo.imgUrl);
 
 					let offscreenCanvas = document.createElement('canvas');
 					offscreenCanvas.width = sourceImage.width;
@@ -669,6 +712,9 @@
 			},
 			download() {
 
+				let _this = this;
+				
+				_this.exportDisabled = true;
 				let offscreenCanvas = document.createElement('canvas');
 				offscreenCanvas.width = 832;
 				offscreenCanvas.height = 1344;
@@ -682,9 +728,9 @@
 				sortCanvas = sortCanvas.filter(x => {
 					return this.currentSelectType.indexOf(x.type) > -1;
 				})
-				
-				console.log("imgCnavasList", this.imgCnavasList)
-				console.log("sortCanvas", sortCanvas)
+
+				// console.log("imgCnavasList", this.imgCnavasList)
+				// console.log("sortCanvas", sortCanvas)
 
 				for (var i = 0; i < sortCanvas.length; i++) {
 					let item = sortCanvas[i];
@@ -695,17 +741,89 @@
 				// 创建数据 URL
 				var dataURL = offscreenCanvas.toDataURL("image/png");
 
-				// 创建一个新的 a 元素
-				var downloadLink = document.createElement("a");
+				//console.log(dataURL)
 
-				// 设置下载链接的属性
-				downloadLink.href = dataURL;
-				downloadLink.download = "image.png";
+				let subCanvas = document.createElement('canvas');
+				subCanvas.width = 64;
+				subCanvas.height = 64;
+				let ctx2 = subCanvas.getContext('2d');
+				ctx2.imageSmoothingEnabled = false;
 
-				// 将链接添加到文档中，模拟点击来执行下载操作，完成后再删除
-				document.body.appendChild(downloadLink);
-				downloadLink.click();
-				document.body.removeChild(downloadLink);
+				// ctx2.drawImage(offscreenCanvas, 0, 0, 832, 1344);
+
+				// console.log(name + ":" + subCanvas.toDataURL())
+
+				let subImgData = [];
+
+				for (var i = 0; i < this.anis.length; i++) {
+
+					let item = this.anis[i];
+					let name = item.aniName;
+					let pos = item.framePos;
+
+					let framePos = this.mainZr.getFramePos(pos);
+
+					for (var j = 0; j < framePos.length; j++) {
+
+						ctx2.clearRect(0, 0, 64, 64);
+						let subPos = framePos[j];
+						//console.log(subPos);
+
+						let imgdx = 64 * subPos[1];
+						let imgdy = 64 * subPos[0];
+
+						ctx2.drawImage(offscreenCanvas, -imgdx, -imgdy, 832, 1344);
+						subImgData.push({
+							name: name,
+							index: j,
+							data: subCanvas.toDataURL()
+						})
+					}
+
+				}
+
+				if (this.exportType == "big") {
+					//创建一个新的 a 元素
+					var downloadLink = document.createElement("a");
+
+					// 设置下载链接的属性
+					downloadLink.href = dataURL;
+					downloadLink.download = "catgame.png";
+
+					// 将链接添加到文档中，模拟点击来执行下载操作，完成后再删除
+					document.body.appendChild(downloadLink);
+					downloadLink.click();
+					document.body.removeChild(downloadLink);
+					
+					_this.exportDisabled = false;
+
+				} else {
+					ExportImgPackagePost(subImgData).then(res => {
+						console.log(res.data);
+
+						DownloadFile({
+							zipPath: res.data
+						}).then(response => {
+							console.log("response", response.data)
+							const url = window.URL.createObjectURL(new Blob([response.data]));
+							const link = document.createElement('a');
+							link.href = url;
+							const fileName = 'catgame.zip'; // 文件名
+							link.setAttribute('download', fileName);
+							document.body.appendChild(link);
+							link.click();
+							
+							_this.exportDisabled = false;
+						})
+
+					});
+				}
+
+
+
+				//----------------------------------------------
+
+
 
 
 			}

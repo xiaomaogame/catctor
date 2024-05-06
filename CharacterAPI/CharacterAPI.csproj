@@ -19,4 +19,13 @@
     <Folder Include="wwwroot\shoulders\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ani.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CREDITS\CREDITS.TXT">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

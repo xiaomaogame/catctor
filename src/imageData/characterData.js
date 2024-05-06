@@ -24,6 +24,7 @@ export default class CharacterData {
 	}
 
 	async init() {
+		
 		if (!this.anis) {
 			let res = await GetAniInfoPost();
 			this.anis = res.data;
@@ -33,6 +34,7 @@ export default class CharacterData {
 			let res = await GetImgDataPost();
 			this.jsonData = res.data;
 		}
+		
 
 	}
 }

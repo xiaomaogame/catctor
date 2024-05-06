@@ -6,7 +6,7 @@ import {
 
 // 创建一个 axios 实例
 const service = axios.create({
-	baseURL: "http://localhost:21422", // url = base url + request url
+	baseURL: "http://150.158.78.78:21422", // url = base url + request url
 	// withCredentials: true, // 发起跨域请求时发送 cookie
 	timeout: 0, // 请求超时时间,
 	needErrDialog: true
@@ -25,7 +25,9 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
 	response => {
-		const res = response.data
+
+		let res = response.data
+
 		if (res.code == 40000) {
 
 			Message({
@@ -35,9 +37,10 @@ service.interceptors.response.use(
 			})
 
 			return Promise.reject(new Error(res.message || '错误'))
-		} else {
-			
+		} else if (res.code == 20000) {
 			return res
+		} else {
+			return response;
 		}
 	},
 	error => {

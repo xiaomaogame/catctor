@@ -29,7 +29,7 @@ namespace CharacterAPI
                 //修改属性名称的序列化方式，首字母小写
                 o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
-
+            builder.WebHost.UseUrls("http://*:21422");
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -60,6 +60,7 @@ namespace CharacterAPI
                 app.UseSwaggerUI();
             }
             app.UseCors("any");
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthorization();
 

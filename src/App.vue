@@ -2,7 +2,7 @@
 	<div id="app" class="page">
 		<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
 			<el-menu-item index="/">主页</el-menu-item>
-			<el-menu-item index="/UploadFile">上传文件</el-menu-item>
+			<!-- <el-menu-item index="/UploadFile">上传文件</el-menu-item> -->
 		</el-menu>
 		<div style="padding-top: 10px;">
 			<keep-alive>

@@ -5,6 +5,7 @@ using CharacterAPI.Tables;
 using CharacterAPI.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IO.Compression;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CharacterAPI.Controllers
@@ -66,7 +67,7 @@ namespace CharacterAPI.Controllers
                 return Fail("文件大小为空！");
             }
 
-            string localPath = $"wwwroot/{code}";
+            string localPath = $"wwwroot/resources/{code}";
 
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), localPath);
             if (!Directory.Exists(filePath))
@@ -122,6 +123,72 @@ namespace CharacterAPI.Controllers
             return Success(name, "");
         }
 
+        [HttpPost]
+        public DataResult<string> ExportImgPackage(List<ExportImg> data)
+        {
+            string guid = Guid.NewGuid().ToString();
+            string yasuoguid = Guid.NewGuid().ToString();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                string imageData = data[i].Data.Substring(data[i].Data.IndexOf(',') + 1); // 将"data:image/png;base64,"这部分去除
+                byte[] imageBytes = Convert.FromBase64String(imageData);
+                string aniName = data[i].Name.Split('_')[1];
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), guid, aniName, data[i].Name + "_" + data[i].Index + ".png");
+
+                if (!Directory.Exists(System.IO.Path.GetDirectoryName(filePath)))
+                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(filePath));
+
+                System.IO.File.WriteAllBytes(filePath, imageBytes);
+            }
+
+            string startPath = Path.Combine(Directory.GetCurrentDirectory(), guid);
+            string zipPath = Path.Combine(Directory.GetCurrentDirectory(), yasuoguid, "catgame_" + DateTime.Now.ToString("yyyyMMdd") + ".zip");
+
+            if (!Directory.Exists(System.IO.Path.GetDirectoryName(zipPath)))
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(zipPath));
+
+            ZipFile.CreateFromDirectory(startPath, zipPath);
+
+            Directory.Delete(startPath, recursive: true);
+
+            return Success(zipPath, "");
+
+            //byte[] fileBytes = System.IO.File.ReadAllBytes(zipPath);
+
+            //Directory.Delete(System.IO.Path.GetDirectoryName(zipPath), recursive: true);
+
+            //return File(fileBytes, "application/zip", "catgame_" + DateTime.Now.ToString("yyyyMMdd")+".zip");
+
+
+          
+        }
+
+        [HttpGet]
+        public IActionResult DownloadFile(string zipPath)
+        {
+         
+            // 确认文件存在
+            if (!System.IO.File.Exists(zipPath))
+            {
+                return NotFound();
+            }
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(zipPath);
+            string name = System.IO.Path.GetFileName(zipPath);
+
+            Directory.Delete(System.IO.Path.GetDirectoryName(zipPath), recursive: true);
+
+            return File(fileBytes, "application/zip", name);
+        }
+
+        [HttpPost]
+        public DataResult<string> GetCredits()
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "CREDITS/CREDITS.TXT");
+            string data = System.IO.File.ReadAllText(path);
+            return Success(data, "");
+        }
     }
 
 
