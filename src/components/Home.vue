@@ -651,12 +651,12 @@
 				this.renderAnimation(this.currentSelectType, val)
 			},
 			rightClick(item) {
-				this.dialogFormVisible = true;
-				this.iconEditform.id = item.id;
-				this.iconEditform.code = item.code;
-				this.iconEditform.type = item.type;
-				this.iconEditform.desc = item.desc;
-				this.iconEditform.sex = item.sex;
+				// this.dialogFormVisible = true;
+				// this.iconEditform.id = item.id;
+				// this.iconEditform.code = item.code;
+				// this.iconEditform.type = item.type;
+				// this.iconEditform.desc = item.desc;
+				// this.iconEditform.sex = item.sex;
 			},
 			editIconHandler() {
 				EditIconPost(this.iconEditform).then(res => {
