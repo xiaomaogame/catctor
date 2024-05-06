@@ -41,7 +41,8 @@
 				</div>
 			</el-col>
 			<el-col :span="12">
-				<el-card class="box-card" v-loading="loading"   element-loading-text="拼命加载中" element-loading-background="rgba(0, 0, 0, 0.8)">
+				<el-card class="box-card" v-loading="loading" element-loading-text="拼命加载中"
+					element-loading-background="rgba(0, 0, 0, 0.8)">
 					<div class="mainPage">
 						<div class="canvasContainer" style="margin-bottom: 20px;">
 							<div class="aniBox">
@@ -91,7 +92,7 @@
 					<div style="margin-top: 10px;">
 						<el-card class="box-card">
 							<p>作者：小猫学游戏</p>
-							<a href="https://space.bilibili.com/627968233"  target="_blank">B站主页</a>
+							<a href="https://space.bilibili.com/627968233" target="_blank">B站主页</a>
 							<p>版本：1.0</p>
 							<p>服务器到期时间：2025-04-30</p>
 						</el-card>
@@ -196,7 +197,7 @@
 				dialogFormVisible: false,
 				colorDialogFormVisible: false,
 				exportType: "big",
-				exportDisabled:false,
+				exportDisabled: false,
 				textarea: "",
 				anis: [],
 				mainZr: null,
@@ -279,7 +280,7 @@
 			}
 		},
 		async mounted() {
-			
+
 			this.loading = true;
 			await this.init();
 			this.loading = false;
@@ -356,7 +357,7 @@
 
 					let imgCanvasInfo = _this.imgCnavasList.filter(x => x.code == code)[0];
 
-					if (imgCanvasInfo) {
+					if (imgCanvasInfo && imgCanvasInfo.code != code) {
 						_this.imgCnavasList = _this.imgCnavasList.filter(x => x.code != code);
 					}
 					_this.imgCnavasList.push(imgInfo);
@@ -713,7 +714,7 @@
 			download() {
 
 				let _this = this;
-				
+
 				_this.exportDisabled = true;
 				let offscreenCanvas = document.createElement('canvas');
 				offscreenCanvas.width = 832;
@@ -794,7 +795,7 @@
 					document.body.appendChild(downloadLink);
 					downloadLink.click();
 					document.body.removeChild(downloadLink);
-					
+
 					_this.exportDisabled = false;
 
 				} else {
@@ -812,7 +813,7 @@
 							link.setAttribute('download', fileName);
 							document.body.appendChild(link);
 							link.click();
-							
+
 							_this.exportDisabled = false;
 						})
 
