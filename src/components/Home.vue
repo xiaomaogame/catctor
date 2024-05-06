@@ -10,9 +10,10 @@
 									<template slot="title" @click.stop>
 										<el-checkbox :value="iconActive[iconItem.code] != '' ? true : false"
 											@click.stop.native="() => { }"
-											@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{ iconItem.name+'  ('+iconItem.imgs.length+') ' }}
+											@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{
+												iconItem.name + ' (' + iconItem.imgs.length + ') ' }}
 											<el-button size="mini" v-if="iconActive[iconItem.code] != ''"
-												@click="colorPanelShow(iconItem.code,iconItem.name)"
+												@click="colorPanelShow(iconItem.code, iconItem.name)"
 												round>自定义颜色</el-button>
 										</el-checkbox>
 
@@ -24,9 +25,9 @@
 											<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
 												@click="choseIconHandler(iconItem.code, icon.type)"
 												@contextmenu.prevent="rightClick(icon)"></el-image>
-											<i v-if="icon.sex=='男'" class="el-icon-male"
+											<i v-if="icon.sex == '男'" class="el-icon-male"
 												style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
-											<i v-if="icon.sex=='女'" class="el-icon-female"
+											<i v-if="icon.sex == '女'" class="el-icon-female"
 												style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
 
 										</div>
@@ -140,7 +141,7 @@
 
 
 		<div class="colorDialogContainer">
-			<el-dialog :title="'自定义颜色_'+currentColorCodeName" :visible.sync="colorDialogFormVisible" width="30%"
+			<el-dialog :title="'自定义颜色_' + currentColorCodeName" :visible.sync="colorDialogFormVisible" width="30%"
 				:modal="false" :close-on-click-modal="false">
 
 				<el-form :model="colorCtrl" label-width="10px">
@@ -172,738 +173,747 @@
 </template>
 
 <script>
-	import zrTool from "@/utils/ZrenderTool"
-	import CharacterData from "@/imageData/characterData"
-	import * as zrender from 'zrender'
+import zrTool from "@/utils/ZrenderTool"
+import CharacterData from "@/imageData/characterData"
+import * as zrender from 'zrender'
 
-	import {
-		GetImgTablesPost,
-		EditIconPost,
-		DelImgJsonPost,
-		ExportImgPackagePost,
-		DownloadFile,
-		GetCredits
-	} from '@/api/myApp'
+import {
+	GetImgTablesPost,
+	EditIconPost,
+	DelImgJsonPost,
+	ExportImgPackagePost,
+	DownloadFile,
+	GetCredits
+} from '@/api/myApp'
 
-	import {
-		MessageBox,
-		Message
-	} from 'element-ui'
+import {
+	MessageBox,
+	Message
+} from 'element-ui'
 
-	export default {
-		name: "Home",
-		data() {
-			return {
-				dialogFormVisible: false,
-				colorDialogFormVisible: false,
-				exportType: "big",
-				exportDisabled: false,
-				textarea: "",
-				anis: [],
-				mainZr: null,
-				upZr: null,
-				leftZr: null,
-				downZr: null,
-				rightZr: null,
-				loading: false,
-				timer: null,
-				farmeCount: 0,
-				color: null,
-				currentColorCodeName: "",
-				form: {
-					name: "",
-					fps: 12,
-					scale: 100
-				},
-				iconEditform: {
-					id: "",
-					code: "",
-					desc: "",
-					type: "",
-					sex: ""
-				},
-				typeListOptions: [],
-				aniRadio: "walk",
-				iconDefaultType: {
-					body: "body_male",
-					head: "head_male",
-					hair: "",
-					belt: "",
-					facial: "",
-					torso: "",
-					shoulders: "",
-					hands: "",
-					feet: "",
-					legs: "",
-					weapons: "",
-					shadow: "",
-					arms: "",
-					backpack: "",
-					hat: ""
-				},
-				iconActive: {
-					body: "",
-					head: "",
-					hair: "",
-					belt: "",
-					facial: "",
-					torso: "",
-					shoulders: "",
-					hands: "",
-					feet: "",
-					legs: "",
-					weapons: "",
-					shadow: "",
-					arms: "",
-					backpack: "",
-					hat: ""
-				},
-				jsonData: [],
-				currentSelectType: ["body_male"],
-				colors: [],
-				colorCtrl: {
-					h: 0,
-					hchecked: false,
-					s: 100,
-					schecked: false,
-					l: 0,
-					lchecked: false,
-					code: ""
-				},
-				imgCnavasList: [{
-					code: "",
-					imgType: "",
-					canvas: null,
-					dataUrl: "",
-					layer: ""
-				}]
+export default {
+	name: "Home",
+	data() {
+		return {
+			dialogFormVisible: false,
+			colorDialogFormVisible: false,
+			exportType: "big",
+			exportDisabled: false,
+			textarea: "",
+			anis: [],
+			mainZr: null,
+			upZr: null,
+			leftZr: null,
+			downZr: null,
+			rightZr: null,
+			loading: false,
+			timer: null,
+			farmeCount: 0,
+			color: null,
+			currentColorCodeName: "",
+			form: {
+				name: "",
+				fps: 12,
+				scale: 100
+			},
+			iconEditform: {
+				id: "",
+				code: "",
+				desc: "",
+				type: "",
+				sex: ""
+			},
+			typeListOptions: [],
+			aniRadio: "walk",
+			iconDefaultType: {
+				body: "body_male",
+				head: "head_male",
+				hair: "",
+				belt: "",
+				facial: "",
+				torso: "",
+				shoulders: "",
+				hands: "",
+				feet: "",
+				legs: "",
+				weapons: "",
+				shadow: "",
+				arms: "",
+				backpack: "",
+				hat: ""
+			},
+			iconActive: {
+				body: "",
+				head: "",
+				hair: "",
+				belt: "",
+				facial: "",
+				torso: "",
+				shoulders: "",
+				hands: "",
+				feet: "",
+				legs: "",
+				weapons: "",
+				shadow: "",
+				arms: "",
+				backpack: "",
+				hat: ""
+			},
+			jsonData: [],
+			currentSelectType: ["body_male"],
+			colors: [],
+			colorCtrl: {
+				h: 0,
+				hchecked: false,
+				s: 100,
+				schecked: false,
+				l: 0,
+				lchecked: false,
+				code: ""
+			},
+			imgCnavasList: [{
+				code: "",
+				imgType: "",
+				canvas: null,
+				dataUrl: "",
+				layer: ""
+			}]
+		}
+	},
+	async mounted() {
+
+		this.loading = true;
+		await this.init();
+		this.loading = false;
+	},
+	methods: {
+		async init() {
+			this.initCredits();
+			let characterData = new CharacterData();
+			await characterData.init();
+			this.anis = characterData.anis;
+			this.jsonData = characterData.jsonData;
+			this.initZr();
+			await this.initSelectInfo();
+			await this.initTypeList();
+
+
+			this.renderAnimation(this.currentSelectType, this.aniRadio)
+			this.playAnimation();
+		},
+		initZr() {
+			this.mainZr = new zrTool("mainCanvas", 320);
+
+			let size = 128;
+			this.upZr = new zrTool("upCanvas", size);
+			this.leftZr = new zrTool("leftCanvas", size);
+			this.downZr = new zrTool("downCanvas", size);
+			this.rightZr = new zrTool("rightCanvas", size);
+
+
+			for (let key in this.iconDefaultType) {
+				this.iconActive[key] = this.iconDefaultType[key];
 			}
 		},
-		async mounted() {
-
-			this.loading = true;
-			await this.init();
-			this.loading = false;
+		initCredits() {
+			let _this = this;
+			GetCredits().then(res => {
+				_this.textarea = res.data;
+			});
 		},
-		methods: {
-			async init() {
-				this.initCredits();
-				let characterData = new CharacterData();
-				await characterData.init();
-				this.anis = characterData.anis;
-				this.jsonData = characterData.jsonData;
-				this.initZr();
-				await this.initSelectInfo();
-				await this.initTypeList();
+		async initSelectInfo() {
 
+			let _this = this;
 
-				this.renderAnimation(this.currentSelectType, this.aniRadio)
-				this.playAnimation();
-			},
-			initZr() {
-				this.mainZr = new zrTool("mainCanvas", 320);
+			let selectItemType = [];
+			for (let key in _this.iconActive) {
+				if (_this.iconActive[key] != "")
+					selectItemType.push(_this.iconActive[key])
+			}
 
-				let size = 128;
-				this.upZr = new zrTool("upCanvas", size);
-				this.leftZr = new zrTool("leftCanvas", size);
-				this.downZr = new zrTool("downCanvas", size);
-				this.rightZr = new zrTool("rightCanvas", size);
+			_this.currentSelectType = selectItemType;
 
+			console.log("currenttype", _this.currentSelectType)
 
-				for (let key in this.iconDefaultType) {
-					this.iconActive[key] = this.iconDefaultType[key];
-				}
-			},
-			initCredits() {
-				let _this = this;
-				GetCredits().then(res => {
-					_this.textarea = res.data;
-				});
-			},
-			async initSelectInfo() {
-
-				let _this = this;
-
-				let selectItemType = [];
-				for (let key in _this.iconActive) {
-					if (_this.iconActive[key] != "")
-						selectItemType.push(_this.iconActive[key])
-				}
-
-				_this.currentSelectType = selectItemType;
-
-				console.log("currenttype", _this.currentSelectType)
-
-				for (var i = 0; i < _this.currentSelectType.length; i++) {
-					let type = _this.currentSelectType[i];
-					let code = type.split("_")[0];
-					let itemInfo = _this.jsonData.filter(x => x.code == code)[0];
-					let imgInfo = itemInfo.imgs.filter(x => x.type == type)[0];
-					imgInfo.layer = itemInfo.layer;
-
-					//构造canvas
-					let sourceImage = await _this.loadImage("http://150.158.78.78:21422/resources/" + imgInfo.imgUrl);
-
-					let offscreenCanvas = document.createElement('canvas');
-					offscreenCanvas.width = sourceImage.width;
-					offscreenCanvas.height = sourceImage.height;
-					let ctx = offscreenCanvas.getContext('2d');
-					ctx.imageSmoothingEnabled = false;
-
-					ctx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height);
-
-					imgInfo.canvas = offscreenCanvas;
-					// imgInfo.dataUrl = offscreenCanvas.toDataURL()
-
-					let imgCanvasInfo = _this.imgCnavasList.filter(x => x.code == code)[0];
-
-					if (imgCanvasInfo && imgCanvasInfo.code != code) {
-						_this.imgCnavasList = _this.imgCnavasList.filter(x => x.code != code);
-					}
-					_this.imgCnavasList.push(imgInfo);
-				}
-
-			},
-			async initTypeList() {
-				let res = await GetImgTablesPost({});
-				this.typeListOptions = res.data;
-			},
-			colorPanelShow(code, name) {
-				this.currentColorCodeName = name;
-				this.colorCtrl.h = 0;
-				this.colorCtrl.s = 100;
-				this.colorCtrl.l = 0;
-				this.colorCtrl.code = code;
-				this.colorDialogFormVisible = true;
-			},
-			colorChangeHandler() {
-
-				let _this = this;
-
-				if (!_this.colorCtrl.hchecked && !_this.colorCtrl.schecked && !_this.colorCtrl.lchecked)
-					return;
-
-				let hsl = {
-					h: _this.colorCtrl.hchecked ? _this.colorCtrl.h : null,
-					s: _this.colorCtrl.schecked ? (_this.colorCtrl.s / 100) : null,
-					l: _this.colorCtrl.lchecked ? (_this.colorCtrl.l / 100) : null
-				}
-
-
-
-
-				// this.mainZr.changeColor({
-				// 	imgType: item,
-				// 	aniName: "down_walk",
-				// 	hsl: hsl
-				// });
-
-
-				for (var i = 0; i < _this.imgCnavasList.length; i++) {
-					let item = _this.imgCnavasList[i];
-					if (item.code == this.colorCtrl.code) {
-						let ctx = item.canvas.getContext('2d');
-						ctx.imageSmoothingEnabled = false;
-
-						let rgbaArr = [];
-
-						let imageData = ctx.getImageData(0, 0, item.canvas.width, item.canvas.height);
-						let data = imageData.data;
-						for (let i = 0; i < data.length; i += 4) {
-							let r = data[i];
-							let g = data[i + 1];
-							let b = data[i + 2];
-							let a = data[i + 3];
-
-							let rgba = `rgba(${r},${g},${b},${a})`;
-							let ohsl = _this.rgbaToHsl(r, g, b, a);
-
-							let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s, ohsl[2] + hsl.l);
-
-							let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
-							let colorData = {
-								r: parseInt(res[1], 10),
-								g: parseInt(res[2], 10),
-								b: parseInt(res[3], 10),
-								a: parseFloat(res[4])
-							};
-
-							data[i] = colorData.r;
-							data[i + 1] = colorData.g;
-							data[i + 2] = colorData.b;
-						}
-
-						ctx.putImageData(imageData, 0, 0);
-
-					}
-				}
-
-				this.renderAnimation(this.currentSelectType, this.aniRadio);
-
-			},
-			colorchangetest() {
-				this.upZr.changeColor({
-					imgType: "body_male",
-					aniName: "up_walk"
-				});
-			},
-			rgbaToHsl(r, g, b, a) {
-				r /= 255, g /= 255, b /= 255;
-				let max = Math.max(r, g, b),
-					min = Math.min(r, g, b);
-				let h, s, l = (max + min) / 2;
-
-				if (max == min) {
-					h = s = 0; // achromatic
-				} else {
-					let d = max - min;
-					s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-					switch (max) {
-						case r:
-							h = (g - b) / d + (g < b ? 6 : 0);
-							break;
-						case g:
-							h = (b - r) / d + 2;
-							break;
-						case b:
-							h = (r - g) / d + 4;
-							break;
-					}
-					h /= 6;
-				}
-				return [h * 360, s, l, a];
-			},
-			async renderAnimation(itemTypes, animationName) {
-				let farmeCount = this.getFrameCountByAniName(animationName);
-
-				// this.upZr.clear();
-				// this.leftZr.clear();
-				// this.downZr.clear();
-				// this.rightZr.clear();
-
-
-				this.mainZr.playFrameCount = farmeCount;
-				this.upZr.playFrameCount = farmeCount;
-				this.leftZr.playFrameCount = farmeCount;
-				this.downZr.playFrameCount = farmeCount;
-				this.rightZr.playFrameCount = farmeCount;
-
-
-				for (var i = 0; i < itemTypes.length; i++) {
-
-					let code = itemTypes[i].split("_")[0];
-					let imgInfo = this.imgCnavasList.filter(x => x.code == code)[0];
-
-					await this.upZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "up_" + animationName
-					});
-
-					await this.leftZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "left_" + animationName
-					});
-
-					await this.downZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "down_" + animationName
-					});
-
-					await this.mainZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "down_" + animationName
-					});
-
-					await this.rightZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "right_" + animationName
-					});
-				}
-			},
-			async playAnimation(animationName) {
-				this.mainZr.play(this.form.fps);
-				this.upZr.play(this.form.fps);
-				this.leftZr.play(this.form.fps);
-				this.downZr.play(this.form.fps);
-				this.rightZr.play(this.form.fps);
-			},
-			clearAniByLayer(layerIndex) {
-
-
-				for (var i = 0; i < this.mainZr.frameGroup.length; i++) {
-					let frame = this.mainZr.frameGroup[i];
-					let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
-					if (layer.zrImg) {
-						layer.zrImg.attr({
-							style: {
-								image: " "
-							}
-						})
-					}
-				}
-
-				for (var i = 0; i < this.upZr.frameGroup.length; i++) {
-					let frame = this.upZr.frameGroup[i];
-					let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
-					if (layer.zrImg) {
-						layer.zrImg.attr({
-							style: {
-								image: " "
-							}
-						})
-					}
-				}
-
-
-				for (var i = 0; i < this.leftZr.frameGroup.length; i++) {
-					let frame = this.leftZr.frameGroup[i];
-					let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
-					if (layer.zrImg) {
-						layer.zrImg.attr({
-							style: {
-								image: " "
-							}
-						})
-					}
-				}
-
-
-				for (var i = 0; i < this.downZr.frameGroup.length; i++) {
-					let frame = this.downZr.frameGroup[i];
-					let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
-					if (layer.zrImg) {
-						layer.zrImg.attr({
-							style: {
-								image: " "
-							}
-						})
-					}
-				}
-
-
-				for (var i = 0; i < this.rightZr.frameGroup.length; i++) {
-					let frame = this.rightZr.frameGroup[i];
-					let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
-					if (layer.zrImg) {
-						layer.zrImg.attr({
-							style: {
-								image: " "
-							}
-						})
-					}
-				}
-			},
-			speedChange(val) {
-				this.playAnimation();
-			},
-			getFrameCountByAniName(aniName) {
-				let name = "down_" + aniName;
-				let rets = this.anis.filter(x => x.aniName == name);
-
-				let framePosInfo = this.mainZr.getFramePos(rets[0].framePos);
-
-				return framePosInfo.length;
-			},
-			async choseIconHandler(activeCode, type) {
-
-				this.iconActive[activeCode] = type;
-				await this.initSelectInfo();
-
-				if (type == "") {
-					//清除当前图层
-					let layerIndex = this.jsonData.filter(x => x.code == activeCode)[0].layer;
-
-					this.clearAniByLayer(layerIndex);
-
-					return;
-				}
-
-				let selectItemType = [];
-
-				this.renderAnimation(this.currentSelectType, this.aniRadio);
-
-
-			},
-			iconCheckHandler(checked, activeCode) {
-				if (activeCode)
-					this.iconActive[activeCode] = ""
-
-				if (checked) {
-					if (this.iconDefaultType[activeCode] == "") {
-
-						this.iconActive[activeCode] = this.jsonData.filter(x => x.code == activeCode)[0].imgs[0].type
-					} else {
-						this.iconActive[activeCode] = this.iconDefaultType[activeCode]
-					}
-				}
-
-				console.log("进行复选框操作")
-				this.choseIconHandler(activeCode, this.iconActive[activeCode]);
-
-
-			},
-			aniSelectHandler(val) {
-
-				this.renderAnimation(this.currentSelectType, val)
-			},
-			rightClick(item) {
-				// this.dialogFormVisible = true;
-				// this.iconEditform.id = item.id;
-				// this.iconEditform.code = item.code;
-				// this.iconEditform.type = item.type;
-				// this.iconEditform.desc = item.desc;
-				// this.iconEditform.sex = item.sex;
-			},
-			editIconHandler() {
-				EditIconPost(this.iconEditform).then(res => {
-					if (res.code == 20000) {
-						Message({
-							message: '成功!',
-							type: 'success',
-							duration: 5 * 1000
-						})
-					}
-				})
-			},
-			delImgJsonHandler() {
-				let _this = this;
-				DelImgJsonPost({
-					id: this.iconEditform.id
-				}).then(res => {
-					if (res.code == 20000) {
-						Message({
-							message: '删除成功!',
-							type: 'success',
-							duration: 5 * 1000
-						});
-						_this.dialogFormVisible = false;
-						_this.init()
-
-					}
-				})
-			},
-			getCodeName(type) {
+			for (var i = 0; i < _this.currentSelectType.length; i++) {
+				let type = _this.currentSelectType[i];
 				let code = type.split("_")[0];
-				let info = this.jsonData.filter(x => x.code == code)[0]
-				if (info) {
-					return info.name
+
+				let itemInfo = _this.jsonData.filter(x => x.code == code)[0];
+				let imgInfo = itemInfo.imgs.filter(x => x.type == type)[0];
+				imgInfo.layer = itemInfo.layer;
+
+				let imgCanvasInfo = _this.imgCnavasList.filter(x => x.code == code)[0];
+
+				//已经存在一模一样的图层
+				if (imgCanvasInfo && imgCanvasInfo.type == type) {
+					console.log("跳过", i)
+					continue;
 				}
 
-			},
-			loadImage(src) {
-				return new Promise(function(resolve, reject) {
-					var img = new Image();
-					img.src = src;
+				//构造canvas
+				let sourceImage = await _this.loadImage("http://150.158.78.78:21422/resources/" + imgInfo.imgUrl);
 
-					img.onload = function() {
-						resolve(img);
-					}
-					img.onerror = function() {
-						reject(new Error('Image load failed: ' + src));
-					}
-
-					img.crossOrigin = "anonymous";
-
-				});
-			},
-			download() {
-
-				let _this = this;
-
-				_this.exportDisabled = true;
 				let offscreenCanvas = document.createElement('canvas');
-				offscreenCanvas.width = 832;
-				offscreenCanvas.height = 1344;
+				offscreenCanvas.width = sourceImage.width;
+				offscreenCanvas.height = sourceImage.height;
 				let ctx = offscreenCanvas.getContext('2d');
 				ctx.imageSmoothingEnabled = false;
 
-				let sortCanvas = this.imgCnavasList.sort((a, b) => {
-					return a.layer - b.layer
-				})
+				ctx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height);
 
-				sortCanvas = sortCanvas.filter(x => {
-					return this.currentSelectType.indexOf(x.type) > -1;
-				})
+				imgInfo.canvas = offscreenCanvas;
+				// imgInfo.dataUrl = offscreenCanvas.toDataURL()
 
-				// console.log("imgCnavasList", this.imgCnavasList)
-				// console.log("sortCanvas", sortCanvas)
 
-				for (var i = 0; i < sortCanvas.length; i++) {
-					let item = sortCanvas[i];
-					if (item.canvas)
-						ctx.drawImage(item.canvas, 0, 0, 832, 1344);
+				console.log("跳过下一步", i)
+				if (imgCanvasInfo) {
+					_this.imgCnavasList = _this.imgCnavasList.filter(x => x.code != code);
 				}
+				_this.imgCnavasList.push(imgInfo);
+			}
 
-				// 创建数据 URL
-				var dataURL = offscreenCanvas.toDataURL("image/png");
+		},
+		async initTypeList() {
+			let res = await GetImgTablesPost({});
+			this.typeListOptions = res.data;
+		},
+		colorPanelShow(code, name) {
+			this.currentColorCodeName = name;
+			this.colorCtrl.h = 0;
+			this.colorCtrl.s = 100;
+			this.colorCtrl.l = 0;
+			this.colorCtrl.code = code;
+			this.colorDialogFormVisible = true;
+		},
+		colorChangeHandler() {
 
-				//console.log(dataURL)
+			let _this = this;
 
-				let subCanvas = document.createElement('canvas');
-				subCanvas.width = 64;
-				subCanvas.height = 64;
-				let ctx2 = subCanvas.getContext('2d');
-				ctx2.imageSmoothingEnabled = false;
+			if (!_this.colorCtrl.hchecked && !_this.colorCtrl.schecked && !_this.colorCtrl.lchecked)
+				return;
 
-				// ctx2.drawImage(offscreenCanvas, 0, 0, 832, 1344);
+			let hsl = {
+				h: _this.colorCtrl.hchecked ? _this.colorCtrl.h : null,
+				s: _this.colorCtrl.schecked ? (_this.colorCtrl.s / 100) : null,
+				l: _this.colorCtrl.lchecked ? (_this.colorCtrl.l / 100) : null
+			}
 
-				// console.log(name + ":" + subCanvas.toDataURL())
 
-				let subImgData = [];
 
-				for (var i = 0; i < this.anis.length; i++) {
 
-					let item = this.anis[i];
-					let name = item.aniName;
-					let pos = item.framePos;
+			// this.mainZr.changeColor({
+			// 	imgType: item,
+			// 	aniName: "down_walk",
+			// 	hsl: hsl
+			// });
 
-					let framePos = this.mainZr.getFramePos(pos);
 
-					for (var j = 0; j < framePos.length; j++) {
+			for (var i = 0; i < _this.imgCnavasList.length; i++) {
+				let item = _this.imgCnavasList[i];
+				if (item.code == this.colorCtrl.code) {
+					let ctx = item.canvas.getContext('2d');
+					ctx.imageSmoothingEnabled = false;
 
-						ctx2.clearRect(0, 0, 64, 64);
-						let subPos = framePos[j];
-						//console.log(subPos);
+					let rgbaArr = [];
 
-						let imgdx = 64 * subPos[1];
-						let imgdy = 64 * subPos[0];
+					let imageData = ctx.getImageData(0, 0, item.canvas.width, item.canvas.height);
+					let data = imageData.data;
+					for (let i = 0; i < data.length; i += 4) {
+						let r = data[i];
+						let g = data[i + 1];
+						let b = data[i + 2];
+						let a = data[i + 3];
 
-						ctx2.drawImage(offscreenCanvas, -imgdx, -imgdy, 832, 1344);
-						subImgData.push({
-							name: name,
-							index: j,
-							data: subCanvas.toDataURL()
-						})
+						let rgba = `rgba(${r},${g},${b},${a})`;
+						let ohsl = _this.rgbaToHsl(r, g, b, a);
+
+						let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s, ohsl[2] + hsl.l);
+
+						let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
+						let colorData = {
+							r: parseInt(res[1], 10),
+							g: parseInt(res[2], 10),
+							b: parseInt(res[3], 10),
+							a: parseFloat(res[4])
+						};
+
+						data[i] = colorData.r;
+						data[i + 1] = colorData.g;
+						data[i + 2] = colorData.b;
 					}
 
+					ctx.putImageData(imageData, 0, 0);
+
 				}
+			}
 
-				if (this.exportType == "big") {
-					//创建一个新的 a 元素
-					var downloadLink = document.createElement("a");
+			this.renderAnimation(this.currentSelectType, this.aniRadio);
 
-					// 设置下载链接的属性
-					downloadLink.href = dataURL;
-					downloadLink.download = "catgame.png";
+		},
+		colorchangetest() {
+			this.upZr.changeColor({
+				imgType: "body_male",
+				aniName: "up_walk"
+			});
+		},
+		rgbaToHsl(r, g, b, a) {
+			r /= 255, g /= 255, b /= 255;
+			let max = Math.max(r, g, b),
+				min = Math.min(r, g, b);
+			let h, s, l = (max + min) / 2;
 
-					// 将链接添加到文档中，模拟点击来执行下载操作，完成后再删除
-					document.body.appendChild(downloadLink);
-					downloadLink.click();
-					document.body.removeChild(downloadLink);
+			if (max == min) {
+				h = s = 0; // achromatic
+			} else {
+				let d = max - min;
+				s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+				switch (max) {
+					case r:
+						h = (g - b) / d + (g < b ? 6 : 0);
+						break;
+					case g:
+						h = (b - r) / d + 2;
+						break;
+					case b:
+						h = (r - g) / d + 4;
+						break;
+				}
+				h /= 6;
+			}
+			return [h * 360, s, l, a];
+		},
+		async renderAnimation(itemTypes, animationName) {
+			let farmeCount = this.getFrameCountByAniName(animationName);
 
-					_this.exportDisabled = false;
+			// this.upZr.clear();
+			// this.leftZr.clear();
+			// this.downZr.clear();
+			// this.rightZr.clear();
 
+
+			this.mainZr.playFrameCount = farmeCount;
+			this.upZr.playFrameCount = farmeCount;
+			this.leftZr.playFrameCount = farmeCount;
+			this.downZr.playFrameCount = farmeCount;
+			this.rightZr.playFrameCount = farmeCount;
+
+
+			for (var i = 0; i < itemTypes.length; i++) {
+
+				let code = itemTypes[i].split("_")[0];
+				let imgInfo = this.imgCnavasList.filter(x => x.code == code)[0];
+
+				await this.upZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: itemTypes[i],
+					aniName: "up_" + animationName
+				});
+
+				await this.leftZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: itemTypes[i],
+					aniName: "left_" + animationName
+				});
+
+				await this.downZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: itemTypes[i],
+					aniName: "down_" + animationName
+				});
+
+				await this.mainZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: itemTypes[i],
+					aniName: "down_" + animationName
+				});
+
+				await this.rightZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: itemTypes[i],
+					aniName: "right_" + animationName
+				});
+			}
+		},
+		async playAnimation(animationName) {
+			this.mainZr.play(this.form.fps);
+			this.upZr.play(this.form.fps);
+			this.leftZr.play(this.form.fps);
+			this.downZr.play(this.form.fps);
+			this.rightZr.play(this.form.fps);
+		},
+		clearAniByLayer(layerIndex) {
+
+
+			for (var i = 0; i < this.mainZr.frameGroup.length; i++) {
+				let frame = this.mainZr.frameGroup[i];
+				let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
+				if (layer.zrImg) {
+					layer.zrImg.attr({
+						style: {
+							image: " "
+						}
+					})
+				}
+			}
+
+			for (var i = 0; i < this.upZr.frameGroup.length; i++) {
+				let frame = this.upZr.frameGroup[i];
+				let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
+				if (layer.zrImg) {
+					layer.zrImg.attr({
+						style: {
+							image: " "
+						}
+					})
+				}
+			}
+
+
+			for (var i = 0; i < this.leftZr.frameGroup.length; i++) {
+				let frame = this.leftZr.frameGroup[i];
+				let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
+				if (layer.zrImg) {
+					layer.zrImg.attr({
+						style: {
+							image: " "
+						}
+					})
+				}
+			}
+
+
+			for (var i = 0; i < this.downZr.frameGroup.length; i++) {
+				let frame = this.downZr.frameGroup[i];
+				let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
+				if (layer.zrImg) {
+					layer.zrImg.attr({
+						style: {
+							image: " "
+						}
+					})
+				}
+			}
+
+
+			for (var i = 0; i < this.rightZr.frameGroup.length; i++) {
+				let frame = this.rightZr.frameGroup[i];
+				let layer = frame.layers.filter(x => x.layer == layerIndex)[0];
+				if (layer.zrImg) {
+					layer.zrImg.attr({
+						style: {
+							image: " "
+						}
+					})
+				}
+			}
+		},
+		speedChange(val) {
+			this.playAnimation();
+		},
+		getFrameCountByAniName(aniName) {
+			let name = "down_" + aniName;
+			let rets = this.anis.filter(x => x.aniName == name);
+
+			let framePosInfo = this.mainZr.getFramePos(rets[0].framePos);
+
+			return framePosInfo.length;
+		},
+		async choseIconHandler(activeCode, type) {
+
+			this.iconActive[activeCode] = type;
+			await this.initSelectInfo();
+
+			if (type == "") {
+				//清除当前图层
+				let layerIndex = this.jsonData.filter(x => x.code == activeCode)[0].layer;
+
+				this.clearAniByLayer(layerIndex);
+
+				return;
+			}
+
+			let selectItemType = [];
+
+			this.renderAnimation(this.currentSelectType, this.aniRadio);
+
+
+		},
+		iconCheckHandler(checked, activeCode) {
+			if (activeCode)
+				this.iconActive[activeCode] = ""
+
+			if (checked) {
+				if (this.iconDefaultType[activeCode] == "") {
+
+					this.iconActive[activeCode] = this.jsonData.filter(x => x.code == activeCode)[0].imgs[0].type
 				} else {
-					ExportImgPackagePost(subImgData).then(res => {
-						console.log(res.data);
+					this.iconActive[activeCode] = this.iconDefaultType[activeCode]
+				}
+			}
 
-						DownloadFile({
-							zipPath: res.data
-						}).then(response => {
-							console.log("response", response.data)
-							const url = window.URL.createObjectURL(new Blob([response.data]));
-							const link = document.createElement('a');
-							link.href = url;
-							const fileName = 'catgame.zip'; // 文件名
-							link.setAttribute('download', fileName);
-							document.body.appendChild(link);
-							link.click();
+			console.log("进行复选框操作")
+			this.choseIconHandler(activeCode, this.iconActive[activeCode]);
 
-							_this.exportDisabled = false;
-						})
 
+		},
+		aniSelectHandler(val) {
+
+			this.renderAnimation(this.currentSelectType, val)
+		},
+		rightClick(item) {
+			this.dialogFormVisible = true;
+			this.iconEditform.id = item.id;
+			this.iconEditform.code = item.code;
+			this.iconEditform.type = item.type;
+			this.iconEditform.desc = item.desc;
+			this.iconEditform.sex = item.sex;
+		},
+		editIconHandler() {
+			EditIconPost(this.iconEditform).then(res => {
+				if (res.code == 20000) {
+					Message({
+						message: '成功!',
+						type: 'success',
+						duration: 5 * 1000
+					})
+				}
+			})
+		},
+		delImgJsonHandler() {
+			let _this = this;
+			DelImgJsonPost({
+				id: this.iconEditform.id
+			}).then(res => {
+				if (res.code == 20000) {
+					Message({
+						message: '删除成功!',
+						type: 'success',
+						duration: 5 * 1000
 					});
+					_this.dialogFormVisible = false;
+					_this.init()
+
+				}
+			})
+		},
+		getCodeName(type) {
+			let code = type.split("_")[0];
+			let info = this.jsonData.filter(x => x.code == code)[0]
+			if (info) {
+				return info.name
+			}
+
+		},
+		loadImage(src) {
+			return new Promise(function (resolve, reject) {
+				var img = new Image();
+				img.src = src;
+
+				img.onload = function () {
+					resolve(img);
+				}
+				img.onerror = function () {
+					reject(new Error('Image load failed: ' + src));
 				}
 
+				img.crossOrigin = "anonymous";
 
+			});
+		},
+		download() {
 
-				//----------------------------------------------
+			let _this = this;
 
+			_this.exportDisabled = true;
+			let offscreenCanvas = document.createElement('canvas');
+			offscreenCanvas.width = 832;
+			offscreenCanvas.height = 1344;
+			let ctx = offscreenCanvas.getContext('2d');
+			ctx.imageSmoothingEnabled = false;
 
+			let sortCanvas = this.imgCnavasList.sort((a, b) => {
+				return a.layer - b.layer
+			})
 
+			sortCanvas = sortCanvas.filter(x => {
+				return this.currentSelectType.indexOf(x.type) > -1;
+			})
+
+			// console.log("imgCnavasList", this.imgCnavasList)
+			// console.log("sortCanvas", sortCanvas)
+
+			for (var i = 0; i < sortCanvas.length; i++) {
+				let item = sortCanvas[i];
+				if (item.canvas)
+					ctx.drawImage(item.canvas, 0, 0, 832, 1344);
+			}
+
+			// 创建数据 URL
+			var dataURL = offscreenCanvas.toDataURL("image/png");
+
+			//console.log(dataURL)
+
+			let subCanvas = document.createElement('canvas');
+			subCanvas.width = 64;
+			subCanvas.height = 64;
+			let ctx2 = subCanvas.getContext('2d');
+			ctx2.imageSmoothingEnabled = false;
+
+			// ctx2.drawImage(offscreenCanvas, 0, 0, 832, 1344);
+
+			// console.log(name + ":" + subCanvas.toDataURL())
+
+			let subImgData = [];
+
+			for (var i = 0; i < this.anis.length; i++) {
+
+				let item = this.anis[i];
+				let name = item.aniName;
+				let pos = item.framePos;
+
+				let framePos = this.mainZr.getFramePos(pos);
+
+				for (var j = 0; j < framePos.length; j++) {
+
+					ctx2.clearRect(0, 0, 64, 64);
+					let subPos = framePos[j];
+					//console.log(subPos);
+
+					let imgdx = 64 * subPos[1];
+					let imgdy = 64 * subPos[0];
+
+					ctx2.drawImage(offscreenCanvas, -imgdx, -imgdy, 832, 1344);
+					subImgData.push({
+						name: name,
+						index: j,
+						data: subCanvas.toDataURL()
+					})
+				}
 
 			}
 
+			if (this.exportType == "big") {
+				//创建一个新的 a 元素
+				var downloadLink = document.createElement("a");
+
+				// 设置下载链接的属性
+				downloadLink.href = dataURL;
+				downloadLink.download = "catgame.png";
+
+				// 将链接添加到文档中，模拟点击来执行下载操作，完成后再删除
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+
+				_this.exportDisabled = false;
+
+			} else {
+				ExportImgPackagePost(subImgData).then(res => {
+					console.log(res.data);
+
+					DownloadFile({
+						zipPath: res.data
+					}).then(response => {
+						console.log("response", response.data)
+						const url = window.URL.createObjectURL(new Blob([response.data]));
+						const link = document.createElement('a');
+						link.href = url;
+						const fileName = 'catgame.zip'; // 文件名
+						link.setAttribute('download', fileName);
+						document.body.appendChild(link);
+						link.click();
+
+						_this.exportDisabled = false;
+					})
+
+				});
+			}
+
+
+
+			//----------------------------------------------
+
+
+
+
 		}
+
 	}
+}
 </script>
 
 <style lang="scss">
-	.sexiang {
-		.el-slider__bar {
-			background: transparent
-		}
-
-		.el-slider__runway {
-			background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-		}
+.sexiang {
+	.el-slider__bar {
+		background: transparent
 	}
 
-	.mainPage {
-		height: 80vh;
+	.el-slider__runway {
+		background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+	}
+}
+
+.mainPage {
+	height: 80vh;
+}
+
+.canvasContainer {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+#mainCanvas {
+	border: 1px maroon solid;
+	height: 320px;
+	width: 320px;
+}
+
+.subCanvasContainer {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.subCanvas {
+	height: 128px;
+	width: 128px;
+	border: 1px maroon solid;
+}
+
+.iconContainer {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.iconBox {
+	border: 1px dashed #ccc;
+	margin-left: 5px;
+	margin-top: 5px;
+	background-color: #e4edf9;
+	position: relative;
+}
+
+.iconBoxActive {
+	border: 3px solid #00aa00 !important;
+}
+
+.aniBox {
+	height: 320px;
+	width: 180px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.colorDialogContainer {
+	.el-dialog {
+		position: absolute;
+		left: 5%;
 	}
 
-	.canvasContainer {
-		display: flex;
-		justify-content: space-evenly;
-	}
-
-	#mainCanvas {
-		border: 1px maroon solid;
-		height: 320px;
-		width: 320px;
-	}
-
-	.subCanvasContainer {
-		display: flex;
-		justify-content: space-evenly;
-	}
-
-	.subCanvas {
-		height: 128px;
-		width: 128px;
-		border: 1px maroon solid;
-	}
-
-	.iconContainer {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.iconBox {
-		border: 1px dashed #ccc;
-		margin-left: 5px;
-		margin-top: 5px;
-		background-color: #e4edf9;
-		position: relative;
-	}
-
-	.iconBoxActive {
-		border: 3px solid #00aa00 !important;
-	}
-
-	.aniBox {
-		height: 320px;
-		width: 180px;
+	.el-form-item__content {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-around;
 	}
-
-	.colorDialogContainer {
-		.el-dialog {
-			position: absolute;
-			left: 5%;
-		}
-
-		.el-form-item__content {
-			display: flex;
-			flex-direction: column;
-		}
-	}
+}
 </style>
