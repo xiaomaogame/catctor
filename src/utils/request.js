@@ -6,7 +6,7 @@ import {
 
 // 创建一个 axios 实例
 const service = axios.create({
-	baseURL: "http://150.158.78.78:21422", // url = base url + request url
+	baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
 	// withCredentials: true, // 发起跨域请求时发送 cookie
 	timeout: 0, // 请求超时时间,
 	needErrDialog: true
