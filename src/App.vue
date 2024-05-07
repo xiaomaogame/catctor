@@ -37,7 +37,7 @@
 		},
 		methods: {
 			handleSelect(key, keyPath) {
-				this.$router.push(key)
+				this.$router.push(key).catch(err => {});
 			}
 		}
 	}
