@@ -11,7 +11,7 @@
 										<el-checkbox :value="iconActive[iconItem.code] != '' ? true : false"
 											@click.stop.native="() => { }"
 											@change="(checked) => iconCheckHandler(checked, iconItem.code)">{{
-												iconItem.name + ' (' + iconItem.imgs.length + ') ' }}
+												iconItem.name + ' (' + iconItem.imgs.filter(x=>x.pos!='后').length + ') ' }}
 											<el-button size="mini" v-if="iconActive[iconItem.code] != ''"
 												@click="colorPanelShow(iconItem.code, iconItem.name)"
 												round>自定义颜色</el-button>
@@ -19,19 +19,22 @@
 
 									</template>
 									<div class="iconContainer">
-										<div class="iconBox"
-											:class="iconActive[iconItem.code] == icon.type ? 'iconBoxActive' : ''"
+										<div :class="iconActive[iconItem.code] == icon.type ? 'iconBoxActive' : ''"
 											v-for="icon in iconItem.imgs">
-											<el-image style="width: 64px; height: 64px" :src="icon.iconData" fit="fill"
-												@click="choseIconHandler(iconItem.code, icon.type)"
-												@contextmenu.prevent="rightClick(icon)"></el-image>
-											<i v-if="icon.sex == '男'" class="el-icon-male"
-												style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
-											<i v-if="icon.sex == '女'" class="el-icon-female"
-												style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
+											<div class="iconBox" v-if="icon.pos!='后'">
+												<el-image style="width: 64px; height: 64px" :src="icon.iconData"
+													fit="fill" @click="choseIconHandler(iconItem.code, icon.type)"
+													@contextmenu.prevent="rightClick(icon)"></el-image>
+												<i v-if="icon.sex == '男'" class="el-icon-male"
+													style="color: blue;position: absolute;right: 0;bottom: 0;"></i>
+												<i v-if="icon.sex == '女'" class="el-icon-female"
+													style="color: hotpink;position: absolute;right: 0;bottom: 0;"></i>
+
+												<i v-if="icon.afterId>0" class="el-icon-connection"
+													style="color: darkgreen;position: absolute;left:0;bottom: 0;"></i>
+											</div>
 
 										</div>
-
 
 									</div>
 								</el-collapse-item>
@@ -192,6 +195,7 @@
 		MessageBox,
 		Message
 	} from 'element-ui'
+	import Layer from "zrender/lib/canvas/Layer"
 
 	export default {
 		name: "Home",
@@ -225,38 +229,10 @@
 				typeListOptions: [], //所有项目的类型列表
 				aniRadio: "walk", //动画选项
 				iconDefaultType: { //默认选项
-					body: "body_male",
-					head: "head_male",
-					hair: "",
-					belt: "",
-					facial: "",
-					torso: "",
-					shoulders: "",
-					hands: "",
-					feet: "",
-					legs: "",
-					weapons: "",
-					shadow: "",
-					arms: "",
-					backpack: "",
-					hat: ""
+
 				},
 				iconActive: { //当前选项
-					body: "",
-					head: "",
-					hair: "",
-					belt: "",
-					facial: "",
-					torso: "",
-					shoulders: "",
-					hands: "",
-					feet: "",
-					legs: "",
-					weapons: "",
-					shadow: "",
-					arms: "",
-					backpack: "",
-					hat: ""
+
 				},
 				jsonData: [], //所有图像信息
 				currentSelectType: ["body_male"], //当前勾选的类型
@@ -286,6 +262,8 @@
 		},
 		methods: {
 			async init() {
+				//初始化类型
+				await this.initTypeList();
 				//初始化证书
 				this.initCredits();
 				//获取单例基础数据
@@ -296,10 +274,11 @@
 
 				//初始化主图和四个子图
 				this.initZr();
+
+
 				//初始化图层信息
 				await this.initSelectInfo();
-				//初始化类型
-				await this.initTypeList();
+
 				//渲染
 				this.renderAnimation(this.currentSelectType, this.aniRadio)
 				//播放
@@ -343,8 +322,9 @@
 					let type = _this.currentSelectType[i];
 					let code = type.split("_")[0];
 
+
 					let itemInfo = _this.jsonData.filter(x => x.code == code)[0];
-					let imgInfo = itemInfo.imgs.filter(x => x.type == type)[0];
+					let imgInfo = itemInfo.imgs.filter(x => x.type == type && x.pos != '后')[0];
 					imgInfo.layer = itemInfo.layer;
 
 					let imgCanvasInfo = _this.imgCnavasList.filter(x => x.code == code)[0];
@@ -371,6 +351,31 @@
 					// imgInfo.dataUrl = offscreenCanvas.toDataURL()
 
 
+					// console.log(imgInfo)
+					if (imgInfo.afterId > 0) {
+						//找后一个图
+						let afterinfo = itemInfo.imgs.filter(x => x.pos == '后')[0];
+						//console.log("afterinfo",afterinfo)
+						//构造canvas
+						let aftersourceImage = await imageHelper.loadImage(process.env.VUE_APP_BASE_API +
+							"/resources/" +
+							afterinfo.imgUrl);
+
+						let afteroffscreenCanvas = document.createElement('canvas');
+						afteroffscreenCanvas.width = sourceImage.width;
+						afteroffscreenCanvas.height = sourceImage.height;
+						let afterctx = afteroffscreenCanvas.getContext('2d');
+						afterctx.imageSmoothingEnabled = false;
+
+						afterctx.drawImage(aftersourceImage, 0, 0, aftersourceImage.width, aftersourceImage.height);
+
+						afterinfo.canvas = afteroffscreenCanvas;
+						afterinfo.layer = -itemInfo.layer;
+
+						imgInfo.afterInfo = afterinfo;
+
+					}
+					console.log(imgInfo)
 
 					if (imgCanvasInfo) {
 						_this.imgCnavasList = _this.imgCnavasList.filter(x => x.code != code);
@@ -382,6 +387,21 @@
 			async initTypeList() {
 				let res = await GetImgTablesPost({});
 				this.typeListOptions = res.data;
+
+				for (var i = 0; i < this.typeListOptions.length; i++) {
+					this.iconDefaultType[this.typeListOptions[i].code] = "";
+					this.iconActive[this.typeListOptions[i].code] = "";
+				}
+
+				this.iconDefaultType.body = "body_male";
+				this.iconDefaultType.head = "head_male"
+
+				this.iconDefaultType = {
+					...this.iconDefaultType
+				}
+				this.iconActive = {
+					...this.iconActive
+				}
 			},
 			colorPanelShow(code, name) {
 				this.currentColorCodeName = name;
@@ -404,47 +424,59 @@
 					l: _this.colorCtrl.lchecked ? (_this.colorCtrl.l / 100) : null
 				}
 
+				let imgCanvasItem = _this.imgCnavasList.filter(x => x.code == this.colorCtrl.code)[0];
 
-				for (var i = 0; i < _this.imgCnavasList.length; i++) {
-					let item = _this.imgCnavasList[i];
-					if (item.code == this.colorCtrl.code) {
-						let ctx = item.canvas.getContext('2d');
-						ctx.imageSmoothingEnabled = false;
-
-						let rgbaArr = [];
-
-						let imageData = ctx.getImageData(0, 0, item.canvas.width, item.canvas.height);
-						let data = imageData.data;
-						for (let i = 0; i < data.length; i += 4) {
-							let r = data[i];
-							let g = data[i + 1];
-							let b = data[i + 2];
-							let a = data[i + 3];
-
-							let rgba = `rgba(${r},${g},${b},${a})`;
-							let ohsl = imageHelper.rgbaToHsl(r, g, b, a);
-
-							let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s, ohsl[2] + hsl.l);
-
-							let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
-							let colorData = {
-								r: parseInt(res[1], 10),
-								g: parseInt(res[2], 10),
-								b: parseInt(res[3], 10),
-								a: parseFloat(res[4])
-							};
-
-							data[i] = colorData.r;
-							data[i + 1] = colorData.g;
-							data[i + 2] = colorData.b;
-						}
-
-						ctx.putImageData(imageData, 0, 0);
-
-					}
+				if (imgCanvasItem) {
+					imageHelper.changeHSL(hsl, imgCanvasItem.canvas);
 				}
 
+				if (imgCanvasItem.afterInfo) {
+					imageHelper.changeHSL(hsl, imgCanvasItem.afterInfo.canvas);
+				}
+
+
 				this.renderAnimation(this.currentSelectType, this.aniRadio);
+
+				// for (var i = 0; i < _this.imgCnavasList.length; i++) {
+				// 	let item = _this.imgCnavasList[i];
+				// 	if (item.code == this.colorCtrl.code) {
+				// 		let ctx = item.canvas.getContext('2d');
+				// 		ctx.imageSmoothingEnabled = false;
+
+				// 		let rgbaArr = [];
+
+				// 		let imageData = ctx.getImageData(0, 0, item.canvas.width, item.canvas.height);
+				// 		let data = imageData.data;
+				// 		for (let i = 0; i < data.length; i += 4) {
+				// 			let r = data[i];
+				// 			let g = data[i + 1];
+				// 			let b = data[i + 2];
+				// 			let a = data[i + 3];
+
+				// 			let rgba = `rgba(${r},${g},${b},${a})`;
+				// 			let ohsl = imageHelper.rgbaToHsl(r, g, b, a);
+
+				// 			let newrgbaStr = zrender.color.modifyHSL(rgba, hsl.h, hsl.s, ohsl[2] + hsl.l);
+
+				// 			let res = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.*\d*)\)/.exec(newrgbaStr);
+				// 			let colorData = {
+				// 				r: parseInt(res[1], 10),
+				// 				g: parseInt(res[2], 10),
+				// 				b: parseInt(res[3], 10),
+				// 				a: parseFloat(res[4])
+				// 			};
+
+				// 			data[i] = colorData.r;
+				// 			data[i + 1] = colorData.g;
+				// 			data[i + 2] = colorData.b;
+				// 		}
+
+				// 		ctx.putImageData(imageData, 0, 0);
+
+				// 	}
+				// }
+
+
 
 			},
 			async renderAnimation(itemTypes, animationName) {
@@ -468,36 +500,51 @@
 					let code = itemTypes[i].split("_")[0];
 					let imgInfo = this.imgCnavasList.filter(x => x.code == code)[0];
 
-					await this.upZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "up_" + animationName
-					});
+					await this.drawItem(imgInfo, itemTypes[i], animationName);
 
-					await this.leftZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "left_" + animationName
-					});
+					//绘制多层组合图
+					if (imgInfo.afterInfo) {
+						await this.drawItem(imgInfo.afterInfo, itemTypes[i], animationName);
+					}
 
-					await this.downZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "down_" + animationName
-					});
-
-					await this.mainZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "down_" + animationName
-					});
-
-					await this.rightZr.drawItem({
-						imageInfo: imgInfo,
-						imgType: itemTypes[i],
-						aniName: "right_" + animationName
-					});
+					// await this.upZr.drawItem({
+					// 	imageInfo: imgInfo,
+					// 	imgType: itemTypes[i],
+					// 	aniName: "up_" + animationName
+					// });
 				}
+			},
+			//核心绘制方法
+			async drawItem(imgInfo, imgType, aniName) {
+				await this.upZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: imgType,
+					aniName: "up_" + aniName
+				});
+
+				await this.leftZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: imgType,
+					aniName: "left_" + aniName
+				});
+
+				await this.downZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: imgType,
+					aniName: "down_" + aniName
+				});
+
+				await this.mainZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: imgType,
+					aniName: "down_" + aniName
+				});
+
+				await this.rightZr.drawItem({
+					imageInfo: imgInfo,
+					imgType: imgType,
+					aniName: "right_" + aniName
+				});
 			},
 			async playAnimation(animationName) {
 				this.mainZr.play(this.form.fps);
@@ -680,15 +727,27 @@
 				let ctx = offscreenCanvas.getContext('2d');
 				ctx.imageSmoothingEnabled = false;
 
-				let sortCanvas = this.imgCnavasList.sort((a, b) => {
+				let hasAfterList = [];
+
+				for (var i = 0; i < this.imgCnavasList.length; i++) {
+					hasAfterList.push(this.imgCnavasList[i]);
+					if (this.imgCnavasList[i].afterInfo) {
+						hasAfterList.push(this.imgCnavasList[i].afterInfo);
+					}
+				}
+
+				let sortCanvas = hasAfterList.sort((a, b) => {
 					return a.layer - b.layer
 				})
 
+				let codes = this.currentSelectType.map(x => x.split("_")[0]);
+				console.log(codes);
+
 				sortCanvas = sortCanvas.filter(x => {
-					return this.currentSelectType.indexOf(x.type) > -1;
+					return codes.indexOf(x.code) > -1;
 				})
 
-
+				console.log("sortCanvas", sortCanvas);
 
 				for (var i = 0; i < sortCanvas.length; i++) {
 					let item = sortCanvas[i];
@@ -833,9 +892,8 @@
 
 	.iconBox {
 		border: 1px dashed #ccc;
-		margin-left: 5px;
-		margin-top: 5px;
-		background-color: #e4edf9;
+		margin: 5px;
+		//background-color: #e4edf9;
 		position: relative;
 	}
 

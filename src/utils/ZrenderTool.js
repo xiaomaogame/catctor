@@ -52,7 +52,7 @@ class zrTool {
 
 
 			let layers = []; //每一帧的层数
-			for (var j = -5; j <= 30; j++) {
+			for (var j = -30; j <= 30; j++) {
 				layers.push({
 					zrImg: null,
 					layer: j

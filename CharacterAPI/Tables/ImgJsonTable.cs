@@ -15,5 +15,6 @@ namespace CharacterAPI.Tables
         public string Sex { get; set; }
         public string Pos { get; set; }
         public int PreId { get; set; }
+        public int AfterId { get; set; }
     }
 }

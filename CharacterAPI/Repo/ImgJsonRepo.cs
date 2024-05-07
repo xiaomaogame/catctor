@@ -39,7 +39,7 @@ namespace CharacterAPI.Repo
         {
             var data = GetImgJsonById(id);
             //删除文件
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", data.ImgUrl);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/resources", data.ImgUrl);
             if (File.Exists(filePath))
             { 
                 File.Delete(filePath);

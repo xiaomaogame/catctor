@@ -45,8 +45,8 @@
 							<el-radio v-model="form.sex" label="无">无</el-radio>
 						</el-form-item>
 						<el-form-item label="多图层:">
-							<el-radio v-model="form.pos" label="front">前</el-radio>
-							<el-radio v-model="form.pos" label="behind">后</el-radio>
+							<el-radio v-model="form.pos" label="前">前</el-radio>
+							<el-radio v-model="form.pos" label="后">后</el-radio>
 						</el-form-item>
 						<el-form-item :label="imgName">
 							<el-input v-model="form.name"></el-input>
@@ -94,7 +94,7 @@
 					name: "",
 					sex: "男",
 					iconData: "",
-					pos: "front",
+					pos: "前",
 					desc: ""
 				},
 				typeListOptions: []

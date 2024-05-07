@@ -30,7 +30,8 @@ namespace CharacterAPI.App
                 ImgUrl = data.ImgUrl,
                 Type = data.Type,
                 Sex = data.Sex,
-                Desc = data.Desc
+                Desc = data.Desc,
+                Pos = data.Pos,
             });
         }
 
@@ -58,10 +59,10 @@ namespace CharacterAPI.App
             imgJson.Sex = imgJsonData.Sex;
 
             // 源文件路径
-            string sourceFile = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{imgJson.ImgUrl}");
+            string sourceFile = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/resources/{imgJson.ImgUrl}");
 
             // 目标文件路径
-            string destinationFile = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{imgJson.Code}/{imgJson.Type}.png");
+            string destinationFile = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/resources/{imgJson.Code}/{imgJson.Type}.png");
 
 
             if (File.Exists(sourceFile))
