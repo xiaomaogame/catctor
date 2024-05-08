@@ -23,7 +23,7 @@ export default class CharacterData {
 		return instance;
 	}
 
-	async init() {
+	async init(reload) {
 		
 		if (!this.anis) {
 			let res = await GetAniInfoPost();
@@ -33,6 +33,15 @@ export default class CharacterData {
 		if (!this.jsonData) {
 			let res = await GetImgDataPost({code:""});
 			this.jsonData = res.data;
+		}
+
+		if(reload)
+		{
+			let res = await GetAniInfoPost();
+			this.anis = res.data;
+
+			let res2 = await GetImgDataPost({code:""});
+			this.jsonData = res2.data;
 		}
 		
 
