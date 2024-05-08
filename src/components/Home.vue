@@ -44,7 +44,7 @@
 
 				</div>
 			</el-col>
-			<el-col :span="12">
+			<el-col :span="12" style="min-width: 755px;">
 				<el-card class="box-card" v-loading="loading" element-loading-text="拼命加载中"
 					element-loading-background="rgba(0, 0, 0, 0.8)">
 					<div class="mainPage">
