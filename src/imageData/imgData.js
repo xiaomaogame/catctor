@@ -18,7 +18,7 @@ export async function GetAniInfo() {
 export async function GetImgData() {
 	if(jsonData==null)
 	{
-		 let res = await GetImgDataPost({});
+		 let res = await GetImgDataPost({code:""});
 		 jsonData = res.data;
 	}
 

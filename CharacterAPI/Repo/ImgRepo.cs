@@ -7,9 +7,15 @@ namespace CharacterAPI.Repo
 {
     public class ImgRepo
     {
-        public static List<ImgJsonDataRet> GetImgData()
+        public static List<ImgJsonDataRet> GetImgData(string code ="")
         {
+
             List<ImgTable> imgs = SqlSugarHelper.Db.Queryable<ImgTable>().OrderBy(x=>x.Layer).ToList();
+
+            if (!string.IsNullOrEmpty(code))
+            {
+                imgs = imgs.Where(x=>x.Code==code).ToList();
+            }
             List<ImgJsonTable> jsons = SqlSugarHelper.Db.Queryable<ImgJsonTable>().ToList();
 
             List<ImgJsonDataRet> rets = new List<ImgJsonDataRet>();

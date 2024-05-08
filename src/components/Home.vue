@@ -96,8 +96,13 @@
 					<div style="margin-top: 10px;">
 						<el-card class="box-card">
 							<p>作者：小猫学游戏</p>
-							<a href="https://space.bilibili.com/627968233" target="_blank">B站主页</a>
-							<p>版本：1.0</p>
+							<div style="display: flex;justify-content: space-around;">
+								<a href="https://space.bilibili.com/627968233" target="_blank">B站主页</a>
+								<a href="https://github.com/xiaomaogame/catctor" target="_blank">github</a>
+								<span>版本1.0.0</span>
+							</div>
+						
+							
 							<p>服务器到期时间：2025-04-30</p>
 							<p>你可以在以下网站找到有关LPC项目的更多信息:</p>
 							<ul>

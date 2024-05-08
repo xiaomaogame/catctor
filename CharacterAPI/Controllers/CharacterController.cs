@@ -33,9 +33,9 @@ namespace CharacterAPI.Controllers
 
 
         [HttpPost]
-        public DataResult<List<ImgJsonDataRet>> GetImgData()
+        public DataResult<List<ImgJsonDataRet>> GetImgData(QueryImgJsonData query)
         {
-            var ret = MyApp.GetImgData();
+            var ret = MyApp.GetImgData(query.Code);
             return Success(ret);
         }
 

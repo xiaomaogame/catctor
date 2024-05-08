@@ -31,7 +31,7 @@ export default class CharacterData {
 		}
 
 		if (!this.jsonData) {
-			let res = await GetImgDataPost();
+			let res = await GetImgDataPost({code:""});
 			this.jsonData = res.data;
 		}
 		

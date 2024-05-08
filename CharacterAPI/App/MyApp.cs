@@ -45,18 +45,27 @@ namespace CharacterAPI.App
             return ImgRepo.GetImgTables();
         }
 
-        public static List<ImgJsonDataRet> GetImgData()
+        public static List<ImgJsonDataRet> GetImgData(string code = "")
         {
-            return ImgRepo.GetImgData();
+            return ImgRepo.GetImgData(code);
         }
+
 
         public static bool EditImgJson(EditImgJson imgJsonData)
         {
+
+            if (ImgJsonRepo.ExitsTypeNotId(imgJsonData.Type, imgJsonData.Id))
+            {
+                throw new Exception("已存在相同名称类型");
+            }
+
             var imgJson = ImgJsonRepo.GetImgJsonById(imgJsonData.Id);
             imgJson.Code = imgJsonData.Code;
             imgJson.Type = imgJsonData.Type;
             imgJson.Desc = imgJsonData.Desc;
             imgJson.Sex = imgJsonData.Sex;
+            imgJson.Pos = imgJsonData.Pos ?? "";
+            imgJson.AfterId = imgJsonData.AfterId ?? 0;
 
             // 源文件路径
             string sourceFile = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/resources/{imgJson.ImgUrl}");
@@ -73,8 +82,8 @@ namespace CharacterAPI.App
                     File.Move(sourceFile, destinationFile);
                     imgJson.ImgUrl = $"{imgJson.Code}/{imgJson.Type}.png";
                 }
-              
-             
+
+
                 var ret = ImgJsonRepo.Edit(imgJson);
 
             }

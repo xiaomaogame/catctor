@@ -20,7 +20,7 @@
 				<div style="margin-top: 20px;">
 					<!-- <div id="iconCanvas" style="width:64px;height:64px;"></div> -->
 
-					<el-form ref="form" :model="form" label-width="150px">
+					<el-form ref="form" :model="form" label-width="80px" label-position="left">
 						<el-form-item label="选择图标:">
 							<div style="display: flex;justify-content: flex-start;">
 								<div id="iconCanvas" style="width:64px;height:64px;"></div>

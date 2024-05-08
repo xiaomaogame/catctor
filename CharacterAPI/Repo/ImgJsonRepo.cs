@@ -22,6 +22,17 @@ namespace CharacterAPI.Repo
                 return false;
         }
 
+        public static bool ExitsTypeNotId(string type,int id)
+        {
+            var ret = SqlSugarHelper.Db.Queryable<ImgJsonTable>().Where(x=>x.Id!=id).First(x => x.Type == type);
+            if (ret != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
         public static bool ExitsCode(string code)
         {
             var ret = SqlSugarHelper.Db.Queryable<ImgJsonTable>().First(x => x.Code == code);
