@@ -4,6 +4,7 @@
 			<el-menu-item index="/">主页</el-menu-item>
 			<el-menu-item index="/UploadFile">上传文件</el-menu-item>
 			<el-menu-item index="/LayerManage">层级管理</el-menu-item>
+			<el-menu-item index="/ItemManage">项目管理</el-menu-item>
 		</el-menu>
 		<div style="padding-top: 10px;">
 			<keep-alive>

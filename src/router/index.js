@@ -6,7 +6,7 @@ Vue.use(Router)
 import Home from '@/components/Home.vue'
 import UploadFile from '@/components/UploadFile.vue'
 import LayerManage from '@/components/LayerManage.vue'
-
+import ItemManage from '@/components/ItemManage.vue'
 const router = new VueRouter({
 	routes: [{
 		path: "/",
@@ -18,6 +18,10 @@ const router = new VueRouter({
 	{
 		path: "/LayerManage",
 		component: LayerManage
+	},
+	{
+		path: "/ItemManage",
+		component: ItemManage
 	}]
 })
 
