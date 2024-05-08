@@ -22,6 +22,19 @@ namespace CharacterAPI.Repo
                 return false;
         }
 
+        public static bool ExitsCode(string code)
+        {
+            var ret = SqlSugarHelper.Db.Queryable<ImgJsonTable>().First(x => x.Code == code);
+            if (ret != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+    
+
 
         public static bool Edit(ImgJsonTable imgJson)
         {
@@ -34,6 +47,7 @@ namespace CharacterAPI.Repo
             var ret = SqlSugarHelper.Db.Queryable<ImgJsonTable>().First(x => x.Id == id);
             return ret;
         }
+
 
         public static bool Delete(int id)
         {

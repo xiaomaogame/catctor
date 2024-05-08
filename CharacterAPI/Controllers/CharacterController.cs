@@ -1,6 +1,7 @@
 using CharacterAPI.App;
 using CharacterAPI.Models;
 using CharacterAPI.Models.Dto;
+using CharacterAPI.Repo;
 using CharacterAPI.Tables;
 using CharacterAPI.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -161,13 +162,13 @@ namespace CharacterAPI.Controllers
             //return File(fileBytes, "application/zip", "catgame_" + DateTime.Now.ToString("yyyyMMdd")+".zip");
 
 
-          
+
         }
 
         [HttpGet]
         public IActionResult DownloadFile(string zipPath)
         {
-         
+
             // 确认文件存在
             if (!System.IO.File.Exists(zipPath))
             {
@@ -190,8 +191,51 @@ namespace CharacterAPI.Controllers
             return Success(data, "");
         }
 
+        [HttpPost]
+        public DataResult<string> UpdateImgLayer(ImgTable imgTable)
+        {
+            var alllist = ImgRepo.GetImgTables();
 
+            if (alllist.Where(x => x.Id != imgTable.Id).Select(x => x.Code).Contains(imgTable.Code))
+            {
+                throw new Exception("已存在重复Code");
+            }
+
+            if (alllist.Where(x => x.Id != imgTable.Id).Select(x => x.Layer).Contains(imgTable.Layer))
+            {
+                throw new Exception("已存在重复Layer");
+            }
+
+            if (alllist.Where(x => x.Id != imgTable.Id).Select(x => x.Name).Contains(imgTable.Name))
+            {
+                throw new Exception("已存在重复Name");
+            }
+
+            var ret = ImgRepo.Update(imgTable);
+            return Success();
+        }
+
+        [HttpPost]
+        public DataResult<string> DelImgLayer(ImgTable imgTable)
+        {
+            if (ImgJsonRepo.ExitsCode(imgTable.Code))
+            {
+                throw new Exception("当前Code下存在图片数据，不可删除！");
+            }
+            var ret = ImgRepo.Delete(imgTable.Id);
+            return Success();
+        }
+
+        [HttpPost]
+        public DataResult<string> AddImgLayer(AddImg imgTable)
+        {
+            if (ImgRepo.ExitsLayer(imgTable.Layer))
+            {
+                throw new Exception("存在相同图层！");
+            }
+            var ret = ImgRepo.Insert(new ImgTable { Code = imgTable.Code, Layer = imgTable.Layer, Name = imgTable.Name });
+            return Success();
+        }
     }
-
 
 }

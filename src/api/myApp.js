@@ -72,3 +72,29 @@ export function GetCredits(data) {
     })
 }
 
+export function UpdateImgLayer(data) {
+    return request({
+        url: '/api/character/UpdateImgLayer',
+        method: 'post',
+        data
+    })
+}
+
+
+
+export function AddImgLayer(data) {
+    return request({
+        url: '/api/character/AddImgLayer',
+        method: 'post',
+        data
+    })
+}
+
+
+export function DelImgLayer(data) {
+    return request({
+        url: '/api/character/DelImgLayer',
+        method: 'post',
+        data
+    })
+}

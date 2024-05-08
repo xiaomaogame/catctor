@@ -1,6 +1,7 @@
 ﻿using CharacterAPI.Models.Dto;
 using CharacterAPI.Tables;
 using CharacterAPI.Utils;
+using static Dm.net.buffer.ByteArrayBuffer;
 
 namespace CharacterAPI.Repo
 {
@@ -29,6 +30,17 @@ namespace CharacterAPI.Repo
             return rets;
         }
 
+        public static bool ExitsLayer(int layer)
+        {
+            var ret = SqlSugarHelper.Db.Queryable<ImgTable>().First(x => x.Layer == layer);
+            if (ret != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
         public static bool ExitsImgByCode(string code)
         {
             var ret = SqlSugarHelper.Db.Queryable<ImgTable>().Where(x => x.Code == code);
@@ -45,10 +57,16 @@ namespace CharacterAPI.Repo
         {
             return SqlSugarHelper.Db.Queryable<ImgTable>()?.First(x => x.Code == code);
         }
-
-        public static bool Update(ImgTable imgJsons)
+    
+        public static bool Update(ImgTable imgdata)
         {
-            var ret = SqlSugarHelper.Db.Updateable<ImgTable>(imgJsons).ExecuteCommand();
+            var ret = SqlSugarHelper.Db.Updateable<ImgTable>(imgdata).ExecuteCommand();
+            return ret > 0;
+        }
+
+        public static bool Delete(int id)
+        {
+            var ret = SqlSugarHelper.Db.Deleteable<ImgTable>(id).ExecuteCommand();
             return ret > 0;
         }
 
@@ -57,6 +75,8 @@ namespace CharacterAPI.Repo
             var ret = SqlSugarHelper.Db.Insertable<ImgTable>(imgJsons).ExecuteCommand();
             return ret > 0;
         }
+
+       
 
 
     }
