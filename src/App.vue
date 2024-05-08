@@ -3,6 +3,7 @@
 		<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
 			<el-menu-item index="/">主页</el-menu-item>
 			<el-menu-item index="/UploadFile">上传文件</el-menu-item>
+			<el-menu-item index="/LayerManage">层级管理</el-menu-item>
 		</el-menu>
 		<div style="padding-top: 10px;">
 			<keep-alive>
@@ -15,7 +16,7 @@
 
 <script>
 	import Home from './components/Home.vue'
-
+	
 	export default {
 		name: 'App',
 		components: {

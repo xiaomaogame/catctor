@@ -5,6 +5,7 @@ Vue.use(Router)
 
 import Home from '@/components/Home.vue'
 import UploadFile from '@/components/UploadFile.vue'
+import LayerManage from '@/components/LayerManage.vue'
 
 const router = new VueRouter({
 	routes: [{
@@ -13,6 +14,10 @@ const router = new VueRouter({
 	}, {
 		path: "/UploadFile",
 		component: UploadFile
+	},
+	{
+		path: "/LayerManage",
+		component: LayerManage
 	}]
 })
 
