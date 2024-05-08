@@ -99,14 +99,28 @@
 							<a href="https://space.bilibili.com/627968233" target="_blank">B站主页</a>
 							<p>版本：1.0</p>
 							<p>服务器到期时间：2025-04-30</p>
-						</el-card>
-					</div>
-					<div style="margin-top: 10px;">
-						<el-card class="box-card">
-							<el-input type="textarea" :rows="10" v-model="textarea">
+							<p>你可以在以下网站找到有关LPC项目的更多信息:</p>
+							<ul>
+								<li><a href="https://lpc.opengameart.org/" rel="nofollow noopener"
+										referrerpolicy="origin">About the Liberated Pixel Cup</a></li>
+								<li><a href="https://lpc.opengameart.org/static/LPC-Style-Guide/build/index.html"
+										rel="nofollow noopener" referrerpolicy="origin">Liberated Pixel Cup style guide,
+										assets, and demo</a></li>
+								<li><a href="https://bztsrc.gitlab.io/lpc-refined/" rel="nofollow noopener"
+										referrerpolicy="origin">Liberated Pixel Cup Specification</a></li>
+								<li><a href="https://opengameart.org/" rel="nofollow noopener"
+										referrerpolicy="origin">OpenGameArt</a></li>
+								<li><a href="https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/"
+										rel="nofollow noopener" referrerpolicy="origin">Universal LPC Spritesheet
+										Generator</a></li>
+							</ul>
+							<p>以下是资源许可证信息</p>
+							
+							<el-input type="textarea" :rows="3" v-model="textarea">
 							</el-input>
 						</el-card>
 					</div>
+					
 
 				</div>
 			</el-col>
