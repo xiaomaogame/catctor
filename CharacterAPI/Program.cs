@@ -1,5 +1,6 @@
 
 using CharacterAPI.Tables;
+using CharacterAPI.Task;
 using CharacterAPI.Utils;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
@@ -69,10 +70,14 @@ namespace CharacterAPI
 
             SqlSugarHelper.Db.DbMaintenance.CreateDatabase();
             //建表 （看文档迁移）
-            SqlSugarHelper.Db.CodeFirst.InitTables<AnimationTable>(); //所有库都支持
+            //SqlSugarHelper.Db.CodeFirst.InitTables<AnimationTable>(); //所有库都支持
             SqlSugarHelper.Db.CodeFirst.InitTables<ImgTable>(); //所有库都支持
             SqlSugarHelper.Db.CodeFirst.InitTables<ImgJsonTable>(); //所有库都支持
+
+
+            Restore.Init();
             app.Run();
+            
         }
     }
 }
