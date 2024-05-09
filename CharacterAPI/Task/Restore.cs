@@ -17,10 +17,9 @@ namespace CharacterAPI.Task
       
         public static void Init()
         {
-            _timer = new Timer(async _ => await Run(), null, TimeSpan.Zero, TimeSpan.FromHours(3));
-
             SaveDb();
             SaveFile();
+            _timer = new Timer(async _ => await Run(), null, TimeSpan.Zero, TimeSpan.FromHours(3));
         }
 
         public static async System.Threading.Tasks.Task Run()
