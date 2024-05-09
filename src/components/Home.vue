@@ -277,7 +277,7 @@
 		async mounted() {
 			this.$notify({
 				title: '警告！',
-				message: '服务器所有数据将在凌晨进行还原！请勿保存重要数据',
+				message: '服务器所有数据每三个小时自动还原！请勿保存重要数据',
 				duration: 0,
 				type: 'warning',
 				position: 'top-left'
